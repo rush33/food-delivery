@@ -32,7 +32,7 @@ To install the food delivery app, follow these steps:
 Clone the repository to your local machine using the command:
 
 ```bash
-git clone https://github.com/rush33/food-delivery-app.git
+git clone https://github.com/rush33/food-delivery.git
 ```
 
 Install the dependencies for the user app and courier app using Yarn or npm:
