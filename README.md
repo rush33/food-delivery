@@ -62,3 +62,14 @@ Repeat this step for the restaurant dashboard and admin app.
 
 
 *Install the Expo client app on your mobile device or emulator and scan the QR code to launch the user app or courier app. Open your web browser and navigate to http://localhost:3000 to launch the restaurant dashboard or admin app.*
+
+<br/>  
+
+<div align="center">
+            <a href="https://www.buymeacoffee.com/rushad33" target="_blank" style="display: inline-block;">
+                <img
+                    src="https://img.shields.io/badge/Donate-Buy%20Me%20A%20Coffee-orange.svg?style=flat-square&logo=buymeacoffee" 
+                    align="center"
+                />
+            </a></div>
+<br />
