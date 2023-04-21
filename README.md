@@ -1,6 +1,6 @@
 
 # Full Stack Food Delivery App
-## (With Courier App and Restaurant Dashboard)
+### (With Courier App and Restaurant Dashboard)
 
 This repository contains the source code for a food delivery app that allows users to browse, order, and track food deliveries from various restaurants. The user app and courier app are built using Expo and React Native, with NativeWind CSS for styling and Firebase for backend services. The restaurant dashboard and admin app are built using Next JS and Tailwind CSS.
 
