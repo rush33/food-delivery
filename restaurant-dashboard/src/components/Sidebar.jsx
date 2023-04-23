@@ -1,13 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { navigation } from "../data/navigation";
 import { navsFooter } from "../data/navsFooter";
 import Orders from "./Orders";
 import OrderHistory from "./OrderHistory";
 import Menu from "./Menu";
 import Settings from "./Settings";
+import { db } from "../firebase/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 const Sidebar = () => {
   const [active, setActive] = useState(0);
+  const [restaurant, setRestaurant] = useState([]);
+  const restaurantId = "5IdiasERdP0Xq0otooZn";
+
+  useEffect(() => {
+    const getRestaurant = async () => {
+      const resRef = doc(db, "restaurants", restaurantId);
+
+      await getDoc(resRef).then((docSnapshot) => {
+        if (docSnapshot.exists()) {
+          const data = docSnapshot.data();
+          setRestaurant({...data, id: docSnapshot.id});
+        } 
+      });
+    };
+
+    getRestaurant();
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -15,14 +34,13 @@ const Sidebar = () => {
         <nav className="fixed top-0 left-0 w-full h-full border-r bg-white space-y-10 sm:w-80">
           <div className="flex flex-col h-full">
             <div className="h-20 flex items-center px-8">
-              <p class="font-semibold text-xl">(Brand Name)</p>
+              <p className="font-bold text-2xl">Dashboard</p>
             </div>
             <div className="flex-1 flex flex-col h-full overflow-auto">
               <ul className="px-4 text-sm font-medium flex-1">
                 {navigation.map((item, index) => (
                   <li key={index} onClick={() => setActive(index)}>
                     <div
-                      href={item.href}
                       className={`my-3 cursor-pointer flex items-center gap-x-2 text-gray-700 text-base p-2 rounded-xl  hover:bg-green-100 active:bg-green-400 duration-150 ${
                         active === index
                           ? "bg-green-100 border-l-4 border-b-4 border-green-500"
@@ -42,7 +60,6 @@ const Sidebar = () => {
                   {navsFooter.map((item, index) => (
                     <li key={index}>
                       <a
-                        href={item.href}
                         className="flex items-center gap-x-2 text-gray-700 text-base p-2 rounded-xl  hover:bg-green-100 active:bg-gray-100 duration-150"
                       >
                         <div className="text-gray-500">{item.icon}</div>
@@ -53,13 +70,10 @@ const Sidebar = () => {
                 </ul>
                 <div className="py-4 px-4 border-t">
                   <div className="flex items-center gap-x-4">
-                    <img
-                      src="https://randomuser.me/api/portraits/women/79.jpg"
-                      className="w-12 h-12 rounded-full"
-                    />
+                    <img src={restaurant.image} className="w-16 h-16 object-cover rounded-full" />
                     <div>
-                      <span className="block text-gray-700 text-sm font-semibold">
-                        Restaurant Name
+                      <span className="block text-gray-700 text-base font-bold">
+                        {restaurant.name}
                       </span>
                     </div>
                   </div>

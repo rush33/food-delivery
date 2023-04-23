@@ -1,6 +1,5 @@
 export const navsFooter = [
   {
-    href: "javascript:void(0)",
     name: "Logout",
     icon: (
       <svg

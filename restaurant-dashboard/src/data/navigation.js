@@ -1,7 +1,6 @@
 
 export const navigation = [
   {
-    href: "javascript:void(0)",
     name: "Orders",
     icon: (
       <svg
@@ -21,7 +20,6 @@ export const navigation = [
     ),
   },
   {
-    href: "javascript:void(0)",
     name: "Menu",
     icon: (
       <svg
@@ -41,7 +39,6 @@ export const navigation = [
     ),
   },
   {
-    href: "javascript:void(0)",
     name: "Order History",
     icon: (
       <svg
@@ -61,7 +58,6 @@ export const navigation = [
     ),
   },
   {
-    href: "javascript:void(0)",
     name: "Settings",
     icon: (
       <svg
