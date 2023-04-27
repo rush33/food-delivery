@@ -9,6 +9,7 @@ import {
   Text,
   View,
   SafeAreaView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { UserAuth } from "../contexts/AuthContext";
@@ -23,10 +24,21 @@ const SignIn = () => {
   const { signInUser } = UserAuth();
 
   const onSignIn = async () => {
+    let errorMessage = "";
+    if (value.email === "") {
+      errorMessage += "Email cannot be empty.\n";
+    }
+    if (value.password === "") {
+      errorMessage += "Password cannot be empty.\n";
+    }
+    if (errorMessage !== "") {
+      Alert.alert("Error", errorMessage.trim());
+      return;
+    }
     try {
       await signInUser(value.email, value.password);
     } catch (error) {
-      console.log(error.message);
+      Alert.alert("Please try again", error.message);
     }
   };
 

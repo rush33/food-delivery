@@ -16,19 +16,20 @@ const AppStack = () => {
 
   return (
     <Stack.Navigator>
-      {!dbUser ? (
+      {dbUser === null ? (
         <Stack.Screen
           name="User Details"
           component={UserDetails}
+          options={{ presentation:"fullScreenModal", headerShown: false }}
+          
+        />
+      ) : (
+        <Stack.Screen
+          name="Home"
+          component={Home}
           options={{ headerShown: false }}
         />
-      ) : null}
-
-      <Stack.Screen
-        name="Home"
-        component={Home}
-        options={{ headerShown: false }}
-      />
+      )}
 
       <Stack.Screen
         name="Options"

@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView } from "react-native";
 import { ArrowRightIcon } from "react-native-heroicons/outline";
 import RestaurantCard from "./RestaurantCard";
-import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 
 const FeaturedRow = ({ id, title, description }) => {
   const [restaurant, setRestaurant] = useState([]);
-
   useEffect(() => {
     const getResData = async () => {
       const resRef = collection(db, "restaurants");

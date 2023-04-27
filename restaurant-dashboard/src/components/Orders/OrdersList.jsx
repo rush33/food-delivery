@@ -1,33 +1,7 @@
-import { useEffect, useState } from "react";
-import { db } from "../firebase/firebase";
-import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
+import React from "react";
 import OrderItem from "./OrderItem";
 
-const Orders = () => {
-  const [orders, setOrders] = useState([]);
-  const restaurantId = "5IdiasERdP0Xq0otooZn";
-
-  useEffect(() => {
-    const getOrders = async () => {
-      const ordersRef = collection(db, "orders");
-      const q = query(
-        ordersRef,
-        where("restaurantId", "==", restaurantId), 
-        orderBy("createdAt", "desc")
-      );
-
-      await getDocs(q).then((querySnapshot) => {
-        let item = [];
-        querySnapshot.forEach((doc) => {
-          item.push({ ...doc.data(), id: doc.id });
-        });
-        setOrders(item);
-      });
-    };
-
-    getOrders();
-  }, []);
-
+const OrdersList = ({ orders, setIsActive }) => {
   return (
     <div className="max-w-screen-xl mx-auto pt-8 px-4 md:px-8">
       <div className="items-start justify-between md:flex">
@@ -47,9 +21,13 @@ const Orders = () => {
               <th className="py-3 pr-6 text-base">Status</th>
             </tr>
           </thead>
-          <tbody className="text-gray-600 divide-y">
+          <tbody className="text-gray-600 divide-y-2">
             {orders.map((item, index) => (
-              <tr key={index}>
+              <tr
+                onClick={() => setIsActive(true)}
+                className="cursor-pointer"
+                key={index}
+              >
                 <OrderItem
                   date={item.createdAt}
                   id={item.id}
@@ -65,4 +43,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default OrdersList;

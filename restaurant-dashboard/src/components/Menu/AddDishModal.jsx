@@ -1,6 +1,25 @@
-import {use}
+import { useState } from "react";
+import {db } from "../../firebase/firebase"
+import { collection, addDoc } from "firebase/firestore"; 
 
-const AddDishModal = ({ setIsActive }) => {
+const AddDishModal = ({ setIsActive, restaurantId }) => {
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const docRef = await addDoc(collection(db, "dishes"), {
+      name: name,
+      image: image,
+      description: description,
+      price: price,
+      restaurantId: restaurantId,
+    });
+     setIsActive(false)
+  };
+
   return (
     <div className="fixed inset-0 z-10 overflow-y-auto">
       <div
@@ -30,10 +49,12 @@ const AddDishModal = ({ setIsActive }) => {
           </div>
           <div className="max-w-sm mx-auto py-3 space-y-3 text-center">
             <h4 className="text-2xl font-bold text-gray-800">Add Dish</h4>
-            <form onSubmit={(e) => e.preventDefault()}>
+            <form onSubmit={handleSubmit}>
               <div className="relative my-6">
                 <input
                   type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                   placeholder="Name"
                   className="w-full pl-2 pr-3 py-2 text-gray-500 bg-transparent outline-none border-2 focus:border-green-500 shadow-sm rounded-lg"
                 />
@@ -42,6 +63,18 @@ const AddDishModal = ({ setIsActive }) => {
               <div className="relative my-6">
                 <input
                   type="text"
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  placeholder="Price"
+                  className="w-full pl-2 pr-3 py-2 text-gray-500 bg-transparent outline-none border-2 focus:border-green-500 shadow-sm rounded-lg"
+                />
+              </div>
+
+              <div className="relative my-6">
+                <input
+                  type="text"
+                  value={image}
+                  onChange={(e) => setImage(e.target.value)}
                   placeholder="Image link"
                   className="w-full pl-2 pr-3 py-2 text-gray-500 bg-transparent outline-none border-2 focus:border-green-500 shadow-sm rounded-lg"
                 />
@@ -50,6 +83,8 @@ const AddDishModal = ({ setIsActive }) => {
               <div className="relative my-6">
                 <input
                   type="text"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                   placeholder="Description"
                   className="w-full pl-2 pr-3 py-2 text-gray-500 bg-transparent outline-none border-2 focus:border-green-500 shadow-sm rounded-lg"
                 />

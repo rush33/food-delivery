@@ -59,13 +59,13 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
 
   return (
     <View className="flex items-center justify-center">
-      <Pressable className="px-4 mt-4 bg-white w-11/12 h-72 rounded-2xl flex-row justify-between items-center border border-gray-100 shadow-xl shadow-gray-400 ">
+      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-100 shadow-xl shadow-gray-400 ">
         <View className=" w-full">
           <Text className={`font-semibold text-2xl ${statusColor}`}>
             {statusText}
           </Text>
-          <Text className="text-sm pt-1 text-gray-500">{formattedDate}</Text>
-          <Text className="text-sm pt-1 text-gray-500">
+          <Text className="text-sm pt-1 text-gray-700">{formattedDate}</Text>
+          <Text className="text-sm pt-1 text-gray-700">
             Order ID #{orderId}
           </Text>
           <View>
@@ -79,8 +79,8 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
               );
             })}
           </View>
-          <Text className="text-sm pt-1 text-gray-500">Order Total: {total}</Text>
-          <Text className="text-sm pt-1 text-gray-500">From {restaurantName}</Text>
+          <Text className="font-semibold text-lg pt-1 text-gray-700">Order Total: {total}</Text>
+          <Text className="font-semibold text-lg pt-1 text-gray-700">From {restaurantName}</Text>
         </View>
       </Pressable>
     </View>

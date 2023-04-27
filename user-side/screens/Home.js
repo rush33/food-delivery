@@ -102,7 +102,6 @@ const Home = () => {
             />
           );
         })}
-
         <View className="px-4">
           <Text className="my-4 font-bold text-2xl">
             Explore all restaurants

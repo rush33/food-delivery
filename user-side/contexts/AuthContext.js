@@ -12,7 +12,8 @@ const UserContext = createContext();
 
 export const AuthContextProvder = ({ children }) => {
   const [user, setUser] = useState({});
-  const [dbUser, setDbUser] = useState({});
+  const [dbUser, setDbUser] = useState(null
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -24,7 +25,9 @@ export const AuthContextProvder = ({ children }) => {
           const docSnap = await getDoc(userRef);
           if (docSnap.exists()) {
             setDbUser(docSnap.data());
-          }
+            console.log("DB USER:", dbUser)
+          } else 
+            setDbUser(null)
         };
         getUserData();
       }

@@ -22,6 +22,8 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 
+
+
 const BasketScreen = () => {
   const navigation = useNavigation();
   const basketTotal = useSelector(selectBasketTotal);

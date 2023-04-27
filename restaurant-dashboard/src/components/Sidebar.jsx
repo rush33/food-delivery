@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { navigation } from "../data/navigation";
 import { navsFooter } from "../data/navsFooter";
-import Orders from "./Orders";
-import OrderHistory from "./OrderHistory";
-import Menu from "./Menu";
-import Settings from "./Settings";
+import Orders from "./Orders/Orders";
+import OrderHistory from "./OrderHistory/OrderHistory";
+import Menu from "./Menu/Menu";
+import Settings from "./Settings/Settings";
 import { db } from "../firebase/firebase";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -20,8 +20,8 @@ const Sidebar = () => {
       await getDoc(resRef).then((docSnapshot) => {
         if (docSnapshot.exists()) {
           const data = docSnapshot.data();
-          setRestaurant({...data, id: docSnapshot.id});
-        } 
+          setRestaurant({ ...data, id: docSnapshot.id });
+        }
       });
     };
 
@@ -59,9 +59,7 @@ const Sidebar = () => {
                 <ul className="px-4 pb-4 text-sm font-medium">
                   {navsFooter.map((item, index) => (
                     <li key={index}>
-                      <a
-                        className="flex items-center gap-x-2 text-gray-700 text-base p-2 rounded-xl  hover:bg-green-100 active:bg-gray-100 duration-150"
-                      >
+                      <a className="flex items-center gap-x-2 text-gray-700 text-base p-2 rounded-xl  hover:bg-green-100 active:bg-gray-100 duration-150">
                         <div className="text-gray-500">{item.icon}</div>
                         {item.name}
                       </a>
@@ -70,7 +68,10 @@ const Sidebar = () => {
                 </ul>
                 <div className="py-4 px-4 border-t">
                   <div className="flex items-center gap-x-4">
-                    <img src={restaurant.image} className="w-16 h-16 object-cover rounded-full" />
+                    <img
+                      src={restaurant.image}
+                      className="w-16 h-16 object-cover rounded-full"
+                    />
                     <div>
                       <span className="block text-gray-700 text-base font-bold">
                         {restaurant.name}

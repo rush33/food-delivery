@@ -75,7 +75,7 @@ const RestaurantDetails = () => {
 
   return (
     <>
-      <StatusBar style="light" />
+      <StatusBar style="auto" />
       <BasketIcon />
 
       <ScrollView className="bg-white">
@@ -100,7 +100,7 @@ const RestaurantDetails = () => {
             <View className="flex-row my-1 space-x-2">
               <StarIcon color="green" opacity={0.5} size={22} />
               <Text className="text-sm text-gray-500">
-                <Text className="text-green-500">{rating.toFixed(1)}</Text> ·{" "}
+                <Text className="text-green-500">{rating}</Text> ·{" "}
                 {minDeliveryTime} - {maxDeliveryTime} mins
               </Text>
             </View>

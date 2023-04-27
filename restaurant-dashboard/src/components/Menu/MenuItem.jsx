@@ -1,4 +1,13 @@
-const MenuItem = ({ setIsActive, dishes }) => {
+import { db } from "../../firebase/firebase";
+
+import { doc, deleteDoc } from "firebase/firestore";
+
+const MenuItem = ({ setIsActive, dishes, setIsRemoved }) => {
+  const handleRemove = async (id) => {
+    await deleteDoc(doc(db, "dishes", id));
+    setIsRemoved(true);
+  };
+
   return (
     <>
       <div className="items-start justify-between sm:flex">
@@ -43,9 +52,12 @@ const MenuItem = ({ setIsActive, dishes }) => {
                 </span>
               </div>
             </div>
-            <a className="p-2 text-sm font-semibold text-red-600 bg-red-100 border-l-4 border-b-4 border-red-400 hover:bg-red-100 active:bg-red-400 duration-150 rounded-xl">
+            <div
+              onClick={(i) => handleRemove(item.id)}
+              className="cursor-pointer p-2 text-sm font-semibold text-red-600 bg-red-100 border-l-4 border-b-4 border-red-400 hover:bg-red-100 active:bg-red-400 duration-150 rounded-xl"
+            >
               Remove
-            </a>
+            </div>
           </li>
         ))}
       </ul>
@@ -53,4 +65,4 @@ const MenuItem = ({ setIsActive, dishes }) => {
   );
 };
 
-export default MenuItem
+export default MenuItem;
