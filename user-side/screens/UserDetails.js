@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
   View,
@@ -7,38 +7,66 @@ import {
   Text,
   ScrollView,
   KeyboardAvoidingView,
+  Alert,
+  Button,
 } from "react-native";
 import { UserAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
-import { collection, getDocs, doc, setDoc } from "firebase/firestore";
-import { useNavigation } from "@react-navigation/native";
+import { doc, setDoc } from "firebase/firestore";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
-import Geolocation from "@react-native-community/geolocation";
+import * as Location from "expo-location";
+import { UserAuth } from "../contexts/AuthContext";
 
 
 const UserDetails = () => {
+  const [locationPermission, setLocationPermission] = useState(null);
+  const [location, setLocation] = useState(null);
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
-  const [lat, setLat] = useState(null);
-  const [lng, setLng] = useState(null);
 
   const { user } = UserAuth();
+  const {
+    params: {
+      email,
+      password,
+    },
+  } = useRoute();
 
-  const [latitude, setLatitude] = useState(37.78825);
-  const [longitude, setLongitude] = useState(-122.4324);
+  console.log(email, password)
 
-  const handleMapPress = (event) => {
-    const { latitude, longitude } = event.nativeEvent.coordinate;
-    setLatitude(latitude);
-    setLongitude(longitude);
-    console.log(latitude, longitude)
+  useEffect(() => {
+    getLocationPermission();
+  }, []);
+
+  const getLocationPermission = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("Permission to access location was denied");
+      return;
+    }
+
+    setLocationPermission(status);
+    getLocation();
   };
 
+  const getLocation = async () => {
+    let { coords } = await Location.getCurrentPositionAsync({});
+    setLocation(coords);
+  };
+
+  // const handleMapPress = (event) => {
+  //   const { latitude, longitude } = event.nativeEvent.coordinate;
+  //   setLatitude(latitude);
+  //   setLongitude(longitude);
+  //   console.log(latitude, longitude);
+  // };
+
   const onSave = async () => {
-    if (!firstName || !lastName || !phoneNumber || !address || !lat || !lng) {
+    if (!firstName || !lastName || !phoneNumber || !address || !location) {
       alert("Please fill in all required fields");
       return;
     }
@@ -48,57 +76,69 @@ const UserDetails = () => {
       lastName: lastName,
       phoneNumber: phoneNumber,
       address: address,
-      latitude: lat,
-      longitude: lng,
+      latitude: location.latitude,
+      longitude: location.longitude,
     });
     navigation.navigate("Home");
   };
 
   return (
-    <ScrollView>
-      <KeyboardAvoidingView className="px-4 py-8 bg-white">
-        <Text className="text-2xl font-semibold mb-4">
+    <SafeAreaView className="bg-white flex-1">
+      <KeyboardAvoidingView
+        className="flex-1 px-4 pt-4 bg-white"
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      >
+        <Text className="text-2xl font-semibold mb-4 text-gray-700">
           A few more details ...
         </Text>
 
-        <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2">First Name</Text>
-          <TextInput
-            className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md"
-            value={firstName}
-            onChangeText={setFirstName}
-          />
-        </View>
+        <ScrollView>
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-700">
+              First Name
+            </Text>
+            <TextInput
+              className="bg-white border border-gray-200 shadow-sm text-base py-2 px-4 rounded-xl text-gray-700"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+          </View>
 
-        <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2">Last Name</Text>
-          <TextInput
-            className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md"
-            value={lastName}
-            onChangeText={setLastName}
-          />
-        </View>
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-700">
+              Last Name
+            </Text>
+            <TextInput
+              className="bg-white border border-gray-200 shadow-sm px-4 py-4 text-gray-700 rounded-xl"
+              value={lastName}
+              onChangeText={setLastName}
+            />
+          </View>
 
-        <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2">Phone Number</Text>
-          <TextInput
-            className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md"
-            value={phoneNumber}
-            onChangeText={setPhoneNumber}
-            keyboardType="phone-pad"
-          />
-        </View>
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-700">
+              Phone Number
+            </Text>
+            <TextInput
+              className="bg-white border border-gray-200 shadow-sm px-4 py-4 rounded-xl text-gray-700"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+              keyboardType="phone-pad"
+            />
+          </View>
 
-        <View className="mb-4">
-          <Text className="text-lg font-semibold mb-2">Area, Street name</Text>
-          <TextInput
-            className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md"
-            value={address}
-            onChangeText={setAddress}
-          />
-        </View>
+          <View className="mb-4">
+            <Text className="text-lg font-semibold mb-2 text-gray-700">
+              Area, Street name
+            </Text>
+            <TextInput
+              className="bg-white border border-gray-200 shadow-sm px-4 py-4 rounded-xl text-gray-700"
+              value={address}
+              onChangeText={setAddress}
+            />
+          </View>
 
-        <View className="flex-row mb-4 space-x-4">
+          {/* <View className="flex-row mb-4 space-x-4">
           <View>
             <Text className="text-lg font-semibold mb-2">Lattitude</Text>
             <TextInput
@@ -116,36 +156,46 @@ const UserDetails = () => {
               onChangeText={setLng}
             />
           </View>
-        </View>
+        </View> */}
 
-        <View className="mb-4 rounded-2xl">
-          <Text className="text-lg font-semibold mb-2">Current Location</Text>
-          <MapView
-            className="h-60 w-full"
-            initialRegion={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.0922,
-              longitudeDelta: 0.0421,
-            }}
-            onPress={handleMapPress}
-          >
-            {latitude && longitude && (
-              <Marker coordinate={{ latitude, longitude }} />
+          <View className="mt-4 mb-6 rounded-2xl overflow-hidden border border-gray-300">
+            {location ? (
+              <MapView
+                className="w-full h-40"
+                provider="google"
+                initialRegion={{
+                  latitude: location.latitude || 0,
+                  longitude: location.longitude || 0,
+                  latitudeDelta: 0.005,
+                  longitudeDelta: 0.005,
+                }}
+              >
+                <Marker
+                  coordinate={{
+                    latitude: location.latitude || 0,
+                    longitude: location.longitude || 0,
+                  }}
+                />
+              </MapView>
+            ) : (
+              <Button
+                title="Get Current Location"
+                onPress={getLocationPermission}
+              />
             )}
-          </MapView>
-        </View>
+          </View>
 
-        <TouchableOpacity
-          onPress={onSave}
-          className="rounded-xl bg-[#00CCBB] p-3"
-        >
-          <Text className="text-center text-white text-lg font-semibold">
-            Save
-          </Text>
-        </TouchableOpacity>
+          <TouchableOpacity
+            onPress={onSave}
+            className="rounded-xl bg-[#00CCBB] p-3"
+          >
+            <Text className="text-center text-white text-lg font-semibold">
+              Sign Up
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
       </KeyboardAvoidingView>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
 
