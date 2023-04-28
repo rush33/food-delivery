@@ -31,7 +31,7 @@ const OptionsScreen = () => {
             onPress={() => {
               navigation.navigate("Profile");
             }}
-            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center"
+            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center shadow-sm"
           >
             <Text className=" font-bold text-lg">My Profile</Text>
             <ArrowRightIcon size={20} color="#00CCBB" />
@@ -41,7 +41,7 @@ const OptionsScreen = () => {
             onPress={() => {
               navigation.navigate("Order Details");
             }}
-            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center"
+            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center shadow-sm"
           >
             <Text className=" font-bold text-lg">My Orders</Text>
             <ArrowRightIcon size={20} color="#00CCBB" />

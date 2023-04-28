@@ -67,7 +67,7 @@ const BasketScreen = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-1 bg-gray-100">
+      <View className="flex-1 bg-gray-50">
         <View className="p-3 border-b border-[#00CCBB] bg-white shadow-xs">
           <View>
             <Text className="text-lg font-bold text-center">Basket</Text>
@@ -152,7 +152,7 @@ const BasketScreen = () => {
             onPress={() => {
               createOrder();
             }}
-            className="rounded-lg bg-[#00CCBB] p-4"
+            className="rounded-2xl bg-[#00CCBB] p-4"
           >
             <Text className="text-center text-white text-lg font-bold">
               Place Order

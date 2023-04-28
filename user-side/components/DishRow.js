@@ -34,7 +34,7 @@ const DishRow = ({ id, name, description, price, image, restaurantId }) => {
     <>
       <Pressable
         onPress={() => setIsPressed(!isPressed)}
-        className="m-2  rounded-3xl bg-white shadow shadow-slate-400 p-4 border border-gray-200"
+        className="m-2  rounded-3xl bg-white shadow shadow-slate-200 p-4 border border-gray-200"
       >
         <View className="flex-row">
           <View className="flex-1 pr-2 justify-center">

@@ -1,9 +1,9 @@
 import React from "react";
-import { Image, Text, TouchableOpacity } from "react-native";
+import { Image, Text, Pressable } from "react-native";
 
 export default function CategoriesCard({ imgUrl, title }) {
   return (
-    <TouchableOpacity className="relative mr-2 ">
+    <Pressable className="relative mr-2 ">
       <Image
         source={{
           uri: imgUrl,
@@ -13,6 +13,6 @@ export default function CategoriesCard({ imgUrl, title }) {
       <Text className="absolute bottom-1 left-1 text-white font-bold">
         {title}
       </Text>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

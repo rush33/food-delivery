@@ -56,6 +56,12 @@ const OrderDetailsScreen = () => {
             </View>
           </View>
 
+          {orders.length === 0 && (
+            <View className="flex-1 bg-white justify-center items-center">
+              <Text className="text-xl font-bold">You have no orders 🚫</Text>
+            </View>
+          )}
+
           {orders.map((order, index) => {
             return (
               <Order
@@ -67,7 +73,6 @@ const OrderDetailsScreen = () => {
                 total={order.total}
                 timestamp={order.createdAt}
               />
-              
             );
           })}
         </View>

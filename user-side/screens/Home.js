@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   View,
@@ -7,8 +7,9 @@ import {
   TextInput,
   ScrollView,
   TouchableOpacity,
-  SafeAreaView,
+  Modal,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import {
   ChevronDownIcon,
   UserIcon,
@@ -21,9 +22,15 @@ import FeaturedRow from "../components/FeaturedRow";
 import RestaurantItem from "../components/RestaurantItem";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
+import Search from "../components/Search";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 
 const Home = () => {
   const [restaurant, setRestaurant] = useState([]);
+  const bottomSheetRef = useRef(null);
+  const [isOpen, setIsOpen] = useState(true);
+
+  const snapPoints = useMemo(() => ["50%"], []);
 
   useEffect(() => {
     const getResData = async () => {
@@ -43,8 +50,9 @@ const Home = () => {
   const navigation = useNavigation();
 
   return (
-    <View className="bg-white pt-10">
+    <SafeAreaView className="bg-white pt-4">
       {/* Header */}
+
       <View className="flex-row pb-3 items-center mx-4 space-x-2">
         <Image
           source={{
@@ -55,7 +63,7 @@ const Home = () => {
 
         <View className="flex-1">
           <Text className="font-bold  text-gray-400 text-sm">Deliver Now!</Text>
-          <Text className="font-bold text-xl">
+          <Text onPress={() => setIsOpen(true)} className="font-bold text-xl">
             Current Location
             <ChevronDownIcon size={20} color="#00CCBB" />
           </Text>
@@ -70,17 +78,20 @@ const Home = () => {
         </TouchableOpacity>
       </View>
       {/* Search */}
-      <View className="flex-row items-center space-x-2 pb-2 mx-4 ">
-        <View className="flex-row flex-1 space-x-2 bg-gray-200 p-3 rounded-lg">
-          <MagnifyingGlassIcon color="gray" size={20} />
-          <TextInput
-            placeholder="Restaurants and cuisines"
-            keyboardType="default"
-          />
-        </View>
-        <AdjustmentsVerticalIcon color="#00CCBB" />
-      </View>
+      <Search />
 
+      {isOpen && (
+        <BottomSheet
+          ref={bottomSheetRef}
+          snapPoints={snapPoints}
+          enablePanDownToClose={true}
+          onClose={() => setIsOpen(false)}
+        >
+          <BottomSheetView>
+            <Text>Awesome 🎉</Text>
+          </BottomSheetView>
+        </BottomSheet>
+      )}
       {/* Body */}
       <ScrollView
         className="bg-white"
@@ -90,6 +101,7 @@ const Home = () => {
       >
         {/* Categores */}
         <Categories />
+
         {/* Featured Rows */}
         {featuredData.map((item, index) => {
           return (
@@ -123,11 +135,11 @@ const Home = () => {
             );
           })}
         </View>
-        <Text className="mt-4 text-center font-light text-xs">
+        {/* <Text className="mt-4 text-center font-light text-xs">
           Made with ❤ by Rushad
-        </Text>
+        </Text> */}
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
