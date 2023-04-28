@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SignIn from "../screens/SignIn";
 import SignUp from "../screens/SignUp";
+import UserDetails from "../screens/UserDetails";
 import { StatusBar } from "expo-status-bar";
 
 const AuthStack = () => {
@@ -9,7 +10,7 @@ const AuthStack = () => {
 
   return (
     <>
-      <StatusBar hidden={false}  style="light" />
+      <StatusBar hidden={false} style="light" />
 
       <Stack.Navigator>
         <Stack.Screen
@@ -22,6 +23,7 @@ const AuthStack = () => {
           component={SignUp}
           options={{ headerShown: false }}
         />
+       
       </Stack.Navigator>
     </>
   );

@@ -12,11 +12,11 @@ const UserContext = createContext();
 
 export const AuthContextProvder = ({ children }) => {
   const [user, setUser] = useState({});
-  const [dbUser, setDbUser] = useState(null
-  );
+  const [dbUser, setDbUser] = useState(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
       setUser(currentUser);
       const uid = currentUser?.uid;
       if (uid) {

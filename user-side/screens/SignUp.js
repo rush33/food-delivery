@@ -23,14 +23,15 @@ const SignUp = () => {
   const navigation = useNavigation();
   const { createUser } = UserAuth();
   
+
   const onSignUp = async () => {
-    try {
+     try {
       await createUser(value.email, value.password);
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
-  
+  };
+
   return (
     <SafeAreaView className="w-full h-full bg-[#00c4b3]">
       <View className="mx-4 h-5/6 flex justify-center align-center space-y-6">
@@ -71,7 +72,7 @@ const SignUp = () => {
               className="rounded-2xl bg-[#00CCBB] border-4 border-white p-3 mx-5 mt-4"
             >
               <Text className="text-center text-white text-lg font-semibold">
-                Sign In
+                Next
               </Text>
             </TouchableOpacity>
           </View>

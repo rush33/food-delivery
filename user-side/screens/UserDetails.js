@@ -13,11 +13,10 @@ import {
 import { UserAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
-import { UserAuth } from "../contexts/AuthContext";
-
+import { StatusBar } from "expo-status-bar";
 
 const UserDetails = () => {
   const [locationPermission, setLocationPermission] = useState(null);
@@ -29,14 +28,6 @@ const UserDetails = () => {
   const [address, setAddress] = useState("");
 
   const { user } = UserAuth();
-  const {
-    params: {
-      email,
-      password,
-    },
-  } = useRoute();
-
-  console.log(email, password)
 
   useEffect(() => {
     getLocationPermission();
@@ -70,7 +61,7 @@ const UserDetails = () => {
       alert("Please fill in all required fields");
       return;
     }
-
+    console.log("uid in user details:", user.uid);
     await setDoc(doc(db, "user", user.uid), {
       firstName: firstName,
       lastName: lastName,
@@ -84,43 +75,44 @@ const UserDetails = () => {
 
   return (
     <SafeAreaView className="bg-white flex-1">
+      <StatusBar style="auto" />
       <KeyboardAvoidingView
         className="flex-1 px-4 pt-4 bg-white"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <Text className="text-2xl font-semibold mb-4 text-gray-700">
+        <Text className="text-2xl font-bold mb-4 text-gray-700">
           A few more details ...
         </Text>
 
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View className="mb-4">
-            <Text className="text-lg font-semibold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-gray-700">
               First Name
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 shadow-sm text-base py-2 px-4 rounded-xl text-gray-700"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={firstName}
               onChangeText={setFirstName}
             />
           </View>
 
           <View className="mb-4">
-            <Text className="text-lg font-semibold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-gray-700">
               Last Name
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 shadow-sm px-4 py-4 text-gray-700 rounded-xl"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={lastName}
               onChangeText={setLastName}
             />
           </View>
 
           <View className="mb-4">
-            <Text className="text-lg font-semibold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-gray-700">
               Phone Number
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 shadow-sm px-4 py-4 rounded-xl text-gray-700"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               keyboardType="phone-pad"
@@ -128,35 +120,15 @@ const UserDetails = () => {
           </View>
 
           <View className="mb-4">
-            <Text className="text-lg font-semibold mb-2 text-gray-700">
-              Area, Street name
+            <Text className="text-xl font-bold mb-2 text-gray-700">
+              Street Address
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 shadow-sm px-4 py-4 rounded-xl text-gray-700"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={address}
               onChangeText={setAddress}
             />
           </View>
-
-          {/* <View className="flex-row mb-4 space-x-4">
-          <View>
-            <Text className="text-lg font-semibold mb-2">Lattitude</Text>
-            <TextInput
-              className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md w-full"
-              value={lat}
-              onChangeText={setLat}
-            />
-          </View>
-
-          <View>
-            <Text className="text-lg font-semibold mb-2">Longitude</Text>
-            <TextInput
-              className="bg-white border border-[#00CCBB] px-4 py-2 rounded-md"
-              value={lng}
-              onChangeText={setLng}
-            />
-          </View>
-        </View> */}
 
           <View className="mt-4 mb-6 rounded-2xl overflow-hidden border border-gray-300">
             {location ? (
@@ -186,10 +158,12 @@ const UserDetails = () => {
           </View>
 
           <TouchableOpacity
-            onPress={onSave}
+            onPress={() => {
+              onSave();
+            }}
             className="rounded-xl bg-[#00CCBB] p-3"
           >
-            <Text className="text-center text-white text-lg font-semibold">
+            <Text className="text-center text-white text-xl font-bold">
               Sign Up
             </Text>
           </TouchableOpacity>
