@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { useNavigation } from "@react-navigation/native";
+import { UserAuth } from "../contexts/AuthContext";
 import {
   View,
   Text,
@@ -21,33 +22,62 @@ import featuredData from "../assets/featuredData.json";
 import FeaturedRow from "../components/FeaturedRow";
 import RestaurantItem from "../components/RestaurantItem";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import Search from "../components/Search";
 import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/userSlice";
 
 const Home = () => {
+  const { user } = UserAuth();
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
   const [restaurant, setRestaurant] = useState([]);
   const bottomSheetRef = useRef(null);
   const [isOpen, setIsOpen] = useState(true);
-
+  const [userData, setUserData] = useState([]);
   const snapPoints = useMemo(() => ["50%"], []);
 
   useEffect(() => {
-    const getResData = async () => {
-      const resRef = collection(db, "restaurants");
-
-      await getDocs(resRef).then((querySnapshot) => {
-        let restaurants = [];
-        querySnapshot.forEach((doc) => {
-          restaurants.push({ ...doc.data(), id: doc.id });
-        });
-        setRestaurant(restaurants);
-      });
-    };
+    getUserData();
     getResData();
   }, []);
 
-  const navigation = useNavigation();
+  const getUserData = async () => {
+    const userRef = doc(db, "user", user.uid);
+    const docSnap = await getDoc(userRef);
+    if (docSnap.exists()) {
+      const items = [{ ...docSnap.data(), id: docSnap.id }];
+      console.log(items);
+      // setUserData(items);
+      dispatch(
+        setUser({
+          uid: user.uid,
+          firstName: items[0].firstName,
+          lastName: items[0].lastName,
+          phoneNumber: items[0].phoneNumber,
+          address: items[0].address,
+          latitude: items[0].latitude,
+          longitude: items[0].longitude,
+        })
+      );
+    } else {
+      // docSnap.data() will be undefined in this case
+      console.log("No such document!");
+    }
+  };
+
+  const getResData = async () => {
+    const resRef = collection(db, "restaurants");
+
+    await getDocs(resRef).then((querySnapshot) => {
+      let restaurants = [];
+      querySnapshot.forEach((doc) => {
+        restaurants.push({ ...doc.data(), id: doc.id });
+      });
+      setRestaurant(restaurants);
+    });
+  };
 
   return (
     <SafeAreaView className="bg-white pt-4">
@@ -125,7 +155,9 @@ const Home = () => {
                 id={item.id}
                 title={item.name}
                 rating={item.rating}
+                description={item.description}
                 address={item.address}
+                genre={item.genre}
                 image={item.image}
                 lat={item.lat}
                 lng={item.lng}

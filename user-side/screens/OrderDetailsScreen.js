@@ -7,7 +7,13 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { UserAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  onSnapshot,
+  orderBy,
+} from "firebase/firestore";
 import OptionsScreen from "./OptionsScreen";
 
 const OrderDetailsScreen = () => {
@@ -17,25 +23,23 @@ const OrderDetailsScreen = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
-    const getOrders = async () => {
-      const ordersRef = collection(db, "orders");
-      const q = query(
-        ordersRef,
-        where("userId", "==", user.uid),
-        orderBy("createdAt", "desc")
-      );
+    const ordersRef = collection(db, "orders");
+    const q = query(
+      ordersRef,
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
 
-      await getDocs(q).then((querySnapshot) => {
-        let item = [];
-        querySnapshot.forEach((doc) => {
-          item.push({ ...doc.data(), id: doc.id });
-        });
-        setOrders(item);
-        console.log(orders);
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let item = [];
+      querySnapshot.forEach((doc) => {
+        item.push({ ...doc.data(), id: doc.id });
       });
-    };
+      setOrders(item);
+      console.log(orders);
+    });
 
-    getOrders();
+    return unsubscribe; // Cleanup function to unsubscribe from real-time updates
   }, []);
 
   return (

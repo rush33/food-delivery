@@ -50,6 +50,7 @@ const FeaturedRow = ({ id, title, description }) => {
               rating={item.rating}
               address={item.address}
               image={item.image}
+              genre={item.genre}
               lat={item.lat}
               lng={item.lng}
               minDeliveryTime={item.minDeliveryTime}
@@ -57,30 +58,6 @@ const FeaturedRow = ({ id, title, description }) => {
             />
           );
         })}
-        {/* <RestaurantCard
-          id={1}
-          imgUrl="https://links.papareact.com/gn7"
-          title="Atmosphere"
-          rating={4.6}
-          genre="Fine Dining"
-          address="Ranghar Plaza"
-          shortDescription="This is a description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        />
-        <RestaurantCard
-          id={2}
-          imgUrl="https://notjustdev-dummy.s3.us-east-2.amazonaws.com/uber-eats/restaurant4.jpeg"
-          title="Food Infinty"
-          rating={4.2}
-          genre="Fast Food"
-          address="KC Road, Khalihamari"
-          shortDescription="This is a description"
-          dishes={[]}
-          long={20}
-          lat={0}
-        /> */}
       </ScrollView>
     </View>
   );

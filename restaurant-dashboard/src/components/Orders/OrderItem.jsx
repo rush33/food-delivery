@@ -1,4 +1,4 @@
-const OrderItem = ({ date, id, total, status }) => {
+const OrderItem = ({ date, id, total, status, lastName, firstName }) => {
   const orderTimeStamp = date.toDate();
   const options = {
     day: "2-digit",
@@ -14,6 +14,9 @@ const OrderItem = ({ date, id, total, status }) => {
     <>
       <td className="pr-6 py-4 text-base whitespace-nowrap">{formattedDate}</td>
       <td className="pr-6 py-4 text-base whitespace-nowrap">{id}</td>
+      <td className="pr-6 py-4 text-base whitespace-nowrap">
+        {firstName} {lastName}
+      </td>
       <td className="pr-6 py-4 text-base whitespace-nowrap">{total}</td>
       <td className="pr-6 py-4 text-base whitespace-nowrap">
         <span

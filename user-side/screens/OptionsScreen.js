@@ -18,9 +18,9 @@ const OptionsScreen = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-gray-100">
-        <View className="p-5 bg-white shadow-xs">
+        <View className="p-5 bg-white shadow-xs ">
           <Pressable
-            onPress={navigation}
+            // onPress={navigation.goBack()}
             className="absolute top-4 left-4 bg-white p-2 rounded-full"
           >
             <ArrowLeftIcon size={30} color="#00CCBB" />
@@ -46,7 +46,7 @@ const OptionsScreen = () => {
             onPress={() => {
               navigation.navigate("Order Details");
             }}
-            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center shadow-sm"
+            className="px-4 mt-6 bg-white w-11/12 h-16 rounded-2xl flex-row justify-between items-center shadow-sm "
           >
             <Text className=" font-bold text-lg">My Orders</Text>
             <ArrowRightIcon size={20} color="#00CCBB" />

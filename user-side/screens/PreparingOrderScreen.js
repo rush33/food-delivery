@@ -7,17 +7,18 @@ import * as Progress from "react-native-progress";
 const PreparingOrderScreen = () => {
   const navigation = useNavigation();
 
- useEffect(() => {
-   setTimeout(() => {
-     Alert.alert("Order Placed", "Your order has been placed successfully!", {
-       text: "OK",
-       style: "cancel",
-       onPress: () => navigation.navigate("Order Details"),
-     });
-     navigation.navigate("Home");
-   }, 3000);
- }, []);
-
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.navigate("Home");
+      Alert.alert("Order Placed 🎉", "Your order has been placed successfully!", [
+        {
+          text: "OK",
+          onPress: () => navigation.navigate("Order Details"),
+          style: "cancel",
+        },
+      ]);
+    }, 3000);
+  }, []);
 
   return (
     <SafeAreaView className="bg-[#00CCBB] flex-1 justify-center items-center">

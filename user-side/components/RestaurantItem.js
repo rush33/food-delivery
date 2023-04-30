@@ -1,5 +1,9 @@
 import { View, Text, Image, Pressable } from "react-native";
-import { MapPinIcon, StarIcon } from "react-native-heroicons/solid";
+import {
+  MapPinIcon,
+  StarIcon,
+  SparklesIcon,
+} from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 
 const RestaurantItem = ({
@@ -8,6 +12,8 @@ const RestaurantItem = ({
   rating,
   address,
   image,
+  description,
+  genre,
   lat,
   lng,
   minDeliveryTime,
@@ -25,13 +31,15 @@ const RestaurantItem = ({
           rating,
           address,
           image,
+          genre,
+          description,
           lat,
           lng,
           minDeliveryTime,
           maxDeliveryTime,
         });
       }}
-      className="bg-white my-2  flex-row rounded-xl shadow-2xl space-x-2"
+      className="bg-white my-2 flex-row rounded-2xl border border-gray-200 space-x-1"
     >
       <View className="h-30 w-30 ">
         <Image
@@ -42,14 +50,19 @@ const RestaurantItem = ({
         />
       </View>
 
-      <View className="px-3 pb-4">
-        <Text className="font-bold text-lg py-2">{title}</Text>
+      <View className="px-3 pb-4 space-y-1">
+        <Text className="font-bold text-xl py-2">{title}</Text>
         <View className="flex-row items-center space-x-1">
           <StarIcon color="green" opacity={0.5} size={22} />
           <Text className="text-sm text-gray-500">
             <Text className="text-green-500">{rating}</Text> · {minDeliveryTime}{" "}
             - {maxDeliveryTime} mins
           </Text>
+        </View>
+
+        <View className="flex-row items-center space-x-1">
+          <SparklesIcon color="gold" opacity={0.4} size={22} />
+          <Text className="text-sm text-gray-500">{genre}</Text>
         </View>
 
         <View className="flex-row items-center space-x-1">

@@ -19,6 +19,8 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { StatusBar } from "expo-status-bar";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
+import { selectUser } from "../features/userSlice";
+import { useSelector } from "react-redux";
 
 const ProfileScreen = () => {
   const [locationPermission, setLocationPermission] = useState(null);
@@ -32,24 +34,11 @@ const ProfileScreen = () => {
     latitude: null,
     longitude: null,
   });
-
-  const { user } = UserAuth();
+  const dbUser = useSelector(selectUser);
+  // const { user } = UserAuth();
 
   useEffect(() => {
     getLocationPermission();
-
-    const getUser = async () => {
-      const userRef = doc(db, "user", user.uid);
-
-      await getDocs(userRef).then((querySnapshot) => {
-        let item = [];
-        querySnapshot.forEach((doc) => {
-          item.push({ ...doc.data(), id: doc.id });
-        });
-        setCurrentUserData(item);
-        console.log(orders);
-      });
-    };
   }, []);
 
   const getLocationPermission = async () => {
@@ -128,7 +117,7 @@ const ProfileScreen = () => {
       <View className="p-5 bg-white shadow-xs">
         <Pressable
           onPress={navigation}
-          className="absolute top-7 left-3 bg-white  rounded-full"
+          className="absolute top-6 left-3 bg-white  rounded-full"
         >
           <ArrowLeftIcon size={25} color="#00CCBB" />
         </Pressable>
@@ -139,12 +128,18 @@ const ProfileScreen = () => {
       </View>
 
       <KeyboardAvoidingView
-        className="flex-1 px-4 pt-4 bg-white"
+        className="flex-1 px-4 bg-white"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View className="flex items-left justify-center px-4 bg-white w-11/12  rounded-xl shadow border-gray-200 mx-auto">
-            <Text className="font-bold text-lg text-gray-700">My Profile</Text>
+          <View className="flex items-left justify-center w-3/6 p-4  mb-4 bg-white  rounded-2xl shadow border-gray-200 mx-auto border">
+            <Text className="text-base font-semibold text-gray-700">
+              {dbUser.firstName} {dbUser.lastName}
+              {"\n"}
+              {dbUser.phoneNumber}
+              {"\n"}
+              {dbUser.address}
+            </Text>
           </View>
           <View className="mb-4">
             <Text className="text-xl font-bold mb-2 text-gray-700">
@@ -224,7 +219,7 @@ const ProfileScreen = () => {
 
           <TouchableOpacity
             onPress={onSave}
-            className="rounded-xl bg-[#00CCBB] p-3"
+            className="rounded-2xl bg-[#00CCBB] p-3 mb-6"
           >
             <Text className="text-center text-white text-xl font-bold">
               Update

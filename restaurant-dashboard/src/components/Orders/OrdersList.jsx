@@ -15,8 +15,9 @@ const OrdersList = ({ orders, setIsActive }) => {
         <table className="w-full table-auto text-sm text-left">
           <thead className="text-gray-600 font-medium border-b">
             <tr>
-              <th className="py-3 pr-6 text-base">Date</th>
+              <th className="py-3 pr-6 text-base">Created At</th>
               <th className="py-3 pr-6 text-base">Order ID</th>
+              <th className="py-3 pr-6 text-base">Customer Name</th>
               <th className="py-3 pr-6 text-base">Total</th>
               <th className="py-3 pr-6 text-base">Status</th>
             </tr>
@@ -31,6 +32,8 @@ const OrdersList = ({ orders, setIsActive }) => {
                 <OrderItem
                   date={item.createdAt}
                   id={item.id}
+                  firstName={item.userFirstName}
+                  lastName={item.userLastName}
                   total={item.total}
                   status={item.status}
                 />
