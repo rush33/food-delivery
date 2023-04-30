@@ -13,6 +13,7 @@ import {
 //import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from "@react-navigation/native";
 import { UserAuth } from "../contexts/AuthContext";
+import UserDetails from './UserDetails';
 
 const SignUp = () => {
   const [value, setValue] = useState({
@@ -26,7 +27,8 @@ const SignUp = () => {
 
   const onSignUp = async () => {
      try {
-      await createUser(value.email, value.password);
+       await createUser(value.email, value.password);
+       navigation.navigate("UserDetails");
     } catch (error) {
       console.log(error.message);
     }

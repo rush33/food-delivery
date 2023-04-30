@@ -5,15 +5,16 @@ import { db } from "../firebase";
 
 const DishInfo = ({ id, quantity }) => {
   console.log(id, quantity);
-  const [dishData, setDishData] = useState(null);
+  const [dishes, setDishes] = useState({});
 
   useEffect(() => {
     const getDish = async () => {
       const docRef = doc(db, "dishes", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
-        setDishData(docSnap.data());
-        console.log(dishData);
+        const items = docSnap.data();
+        console.log(items);
+        setDishes(items);
       } else {
         // docSnap.data() will be undefined in this case
         console.log("No such document!");
@@ -28,11 +29,11 @@ const DishInfo = ({ id, quantity }) => {
         {quantity} x
       </Text>
       <Image
-        source={{ uri: dishData.image }}
+        source={{ uri: dishes.image }}
         className="h-12 w-12 rounded-full"
       />
       <Text className="font-semibold text-base pt-1 text-gray-700">
-        {dishData.name}
+        {dishes.name}
       </Text>
     </View>
   );

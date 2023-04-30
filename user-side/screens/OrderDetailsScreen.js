@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { ArrowLeftIcon } from "react-native-heroicons/solid";
 import Order from "../components/Order";
@@ -8,7 +8,7 @@ import { StatusBar } from "expo-status-bar";
 import { UserAuth } from "../contexts/AuthContext";
 import { db } from "../firebase";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
-import OptionsScreen from './OptionsScreen';
+import OptionsScreen from "./OptionsScreen";
 
 const OrderDetailsScreen = () => {
   const { user } = UserAuth();
@@ -31,6 +31,7 @@ const OrderDetailsScreen = () => {
           item.push({ ...doc.data(), id: doc.id });
         });
         setOrders(item);
+        console.log(orders);
       });
     };
 
@@ -42,7 +43,7 @@ const OrderDetailsScreen = () => {
       <StatusBar style="dark" />
 
       <SafeAreaView className="flex-1 bg-white">
-        <View className="flex-1 bg-white">
+        <View className=" bg-white">
           <View className="p-5 bg-white shadow-xs">
             <TouchableOpacity
               onPress={navigation.goBack}
@@ -56,25 +57,31 @@ const OrderDetailsScreen = () => {
             </View>
           </View>
 
-          {orders.length === 0 && (
-            <View className="flex-1 bg-white justify-center items-center">
-              <Text className="text-xl font-bold">You have no orders 🚫</Text>
-            </View>
-          )}
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            <View className="mb-20">
+              {orders.length === 0 && (
+                <View className="flex-1 bg-white justify-center items-center">
+                  <Text className="text-xl font-bold">
+                    You have no orders 🚫
+                  </Text>
+                </View>
+              )}
 
-          {orders.map((order, index) => {
-            return (
-              <Order
-                key={index}
-                orderId={order.id}
-                status={order.status}
-                restaurantId={order.restaurantId}
-                restaurantName={order.restaurantName}
-                total={order.total}
-                timestamp={order.createdAt}
-              />
-            );
-          })}
+              {orders.map((order, index) => {
+                return (
+                  <Order
+                    key={index}
+                    orderId={order.id}
+                    status={order.status}
+                    restaurantId={order.restaurantId}
+                    restaurantName={order.restaurantName}
+                    total={order.total}
+                    timestamp={order.createdAt}
+                  />
+                );
+              })}
+            </View>
+          </ScrollView>
         </View>
       </SafeAreaView>
     </>

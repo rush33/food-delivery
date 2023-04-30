@@ -18,6 +18,9 @@ import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { StatusBar } from "expo-status-bar";
 
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/userSlice";
+
 const UserDetails = () => {
   const [locationPermission, setLocationPermission] = useState(null);
   const [location, setLocation] = useState(null);
@@ -28,6 +31,7 @@ const UserDetails = () => {
   const [address, setAddress] = useState("");
 
   const { user } = UserAuth();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getLocationPermission();
@@ -70,7 +74,35 @@ const UserDetails = () => {
       latitude: location.latitude,
       longitude: location.longitude,
     });
-    navigation.navigate("Home");
+navigation.navigate("Home");
+    console.log(
+      "dispatched:",
+      "uid",
+      user.uid,
+      "firstName",
+      firstName,
+      "lastName",
+      lastName,
+      "phoneNumber",
+      phoneNumber,
+      "address",
+      address,
+      "latitude",
+      location.latitude,
+      "longitude",
+      location.longitude
+    );
+    dispatch(
+      setUser({
+        uid: user.uid,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        address: address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      })
+    );
   };
 
   return (
@@ -135,6 +167,7 @@ const UserDetails = () => {
               <MapView
                 className="w-full h-40"
                 provider="google"
+                showsUserLocation
                 initialRegion={{
                   latitude: location.latitude || 0,
                   longitude: location.longitude || 0,

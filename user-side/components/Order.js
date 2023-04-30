@@ -22,14 +22,20 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
   const formattedDate = orderTimeStamp.toLocaleString("en-US", options);
 
   if (status === "NEW") {
-    statusText = "Order Cofirmed 🍔";
-    statusColor = "text-orange-400"; // orange
+    statusText = "Order Pending ⏳";
+    statusColor = "text-yellow-400";
+  } else if (status === "ACCEPTED") {
+    statusText = "Order Confirmed 🍽";
+    statusColor = "text-orange-500";
+  } else if (status === "DECLINED") {
+    statusText = "Order Declined ❌";
+    statusColor = "text-red-500";
   } else if (status === "PREPARING") {
     statusText = "Preparing Food 🍲";
-    statusColor = "text-[#00CCBB]"; // orange
-  } else if (status === "ON THE WAY") {
-    statusText = "On the way 🚚";
-    statusColor = "text-[#00CCBB]"; // green
+    statusColor = "text-yellow-500";
+  } else if (status === "PICKEDUP") {
+    statusText = "Picked Up by Driver 🛵";
+    statusColor = "text-green-500"; // green
   } else if (status === "COMPLETE") {
     statusText = "Delivered ✅";
     statusColor = "text-green-500"; // green
@@ -59,9 +65,9 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
 
   return (
     <View className="flex items-center justify-center">
-      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-100 shadow-xl shadow-gray-400 ">
+      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-50 shadow-xl shadow-gray-300 ">
         <View className=" w-full">
-          <Text className={`font-semibold text-2xl ${statusColor}`}>
+          <Text className={`font-bold text-2xl ${statusColor}`}>
             {statusText}
           </Text>
           <Text className="text-sm pt-1 text-gray-700">{formattedDate}</Text>
@@ -79,8 +85,24 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
               );
             })}
           </View>
-          <Text className="font-semibold text-lg pt-1 text-gray-700">Order Total: {total}</Text>
-          <Text className="font-semibold text-lg pt-1 text-gray-700">From {restaurantName}</Text>
+
+          <View className="flex-row justify-between">
+            <Text className="font-semibold text-lg pt-1 text-gray-700">
+              Order Total:
+            </Text>
+            <Text className="font-semibold text-lg pt-1 text-gray-700">
+              Rs. {total}
+            </Text>
+          </View>
+
+          <View className="flex-row justify-between">
+            <Text className="font-semibold text-lg pt-1 text-gray-700">
+              From:
+            </Text>
+            <Text className="font-semibold text-lg pt-1 text-gray-700">
+              {restaurantName}
+            </Text>
+          </View>
         </View>
       </Pressable>
     </View>

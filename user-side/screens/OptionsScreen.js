@@ -4,11 +4,16 @@ import { ArrowRightIcon, ArrowLeftIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { UserAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
 
 const OptionsScreen = () => {
   const navigation = useNavigation();
+  const [name, setName] = useState("");
   const { dbUser, signOutUser } = UserAuth();
-  const name = dbUser?.firstName;
+
+  useEffect(() => {
+    setName(dbUser?.firstName);
+  }, []);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

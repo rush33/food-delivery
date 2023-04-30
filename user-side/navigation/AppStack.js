@@ -23,7 +23,7 @@ const AppStack = () => {
           component={UserDetails}
           options={{ presentation: "fullScreenModal", headerShown: false }}
         />
-      ) : navigation.navigate("Home")}
+      ) : null}
       <>
         <Stack.Screen
           name="Home"
@@ -56,15 +56,15 @@ const AppStack = () => {
         />
 
         <Stack.Screen
-          name="Order Details"
-          component={OrderDetailsScreen}
-          options={{ headerShown: false }}
-        />
-
-        <Stack.Screen
           name="PreparingOrderScreen"
           component={PreparingOrderScreen}
           options={{ presentation: "fullScreenModal", headerShown: false }}
+        />
+
+        <Stack.Screen
+          name="Order Details"
+          component={OrderDetailsScreen}
+          options={{ headerShown: false }}
         />
       </>
     </Stack.Navigator>

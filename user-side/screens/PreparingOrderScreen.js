@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView } from "react-native";
+import { View, Text, SafeAreaView, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import * as Animatable from "react-native-animatable";
@@ -7,11 +7,17 @@ import * as Progress from "react-native-progress";
 const PreparingOrderScreen = () => {
   const navigation = useNavigation();
 
-  useEffect(() => {
-    setTimeout(() => {
-      navigation.navigate("Order Details");
-    }, 3000);
-  }, []);
+ useEffect(() => {
+   setTimeout(() => {
+     Alert.alert("Order Placed", "Your order has been placed successfully!", {
+       text: "OK",
+       style: "cancel",
+       onPress: () => navigation.navigate("Order Details"),
+     });
+     navigation.navigate("Home");
+   }, 3000);
+ }, []);
+
 
   return (
     <SafeAreaView className="bg-[#00CCBB] flex-1 justify-center items-center">

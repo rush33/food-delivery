@@ -4,6 +4,7 @@ import Currency from "react-currency-formatter";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { selectRestaurant } from "../features/restaurantSlice";
+import { selectUser } from "../features/userSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { XCircleIcon } from "react-native-heroicons/solid";
 import {
@@ -28,6 +29,7 @@ const BasketScreen = () => {
   const navigation = useNavigation();
   const basketTotal = useSelector(selectBasketTotal);
   const restaurant = useSelector(selectRestaurant);
+  const dbUser = useSelector(selectUser);
   const items = useSelector(selectBasketItems);
   const [groupItemsInBucket, setGroupItemsInBucket] = useState([]);
   const dispatch = useDispatch();
@@ -49,6 +51,15 @@ const BasketScreen = () => {
       userId: user.uid,
       restaurantName: restaurant.title,
       restaurantId: restaurant.id,
+      restaurantAddress: restaurant.address,
+      restaurantImage: restaurant.image,
+      restaurantLatitude: restaurant.lat,
+      restaurantLongitude: restaurant.lng,
+      userFirstName: dbUser.firstName,
+      userLastName: dbUser.lastName,
+      userLatitude: dbUser.latitude,
+      userLongitude: dbUser.longitude,
+      userPhoneNumber: dbUser.phoneNumber,
       status: "NEW",
       total: basketTotal + deliveryFee,
       createdAt: serverTimestamp(),
@@ -63,7 +74,12 @@ const BasketScreen = () => {
         });
       })
     );
+
+    navigation.navigate("PreparingOrderScreen");
   };
+
+  console.log(restaurant);
+  console.log(dbUser);
 
   return (
     <SafeAreaView className="flex-1 bg-white">

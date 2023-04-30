@@ -28,11 +28,28 @@ const ProfileScreen = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [userLocation, setUserLocation] = useState({
+    latitude: null,
+    longitude: null,
+  });
 
   const { user } = UserAuth();
 
   useEffect(() => {
     getLocationPermission();
+
+    const getUser = async () => {
+      const userRef = doc(db, "user", user.uid);
+
+      await getDocs(userRef).then((querySnapshot) => {
+        let item = [];
+        querySnapshot.forEach((doc) => {
+          item.push({ ...doc.data(), id: doc.id });
+        });
+        setCurrentUserData(item);
+        console.log(orders);
+      });
+    };
   }, []);
 
   const getLocationPermission = async () => {
@@ -51,12 +68,16 @@ const ProfileScreen = () => {
     setLocation(coords);
   };
 
-  // const handleMapPress = (event) => {
-  //   const { latitude, longitude } = event.nativeEvent.coordinate;
-  //   setLatitude(latitude);
-  //   setLongitude(longitude);
-  //   console.log(latitude, longitude);
-  // };
+  const handleMapPress = (event) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    setUserLocation({
+      ...userLocation,
+      latitude,
+      longitude,
+    });
+    console.log(userLocation);
+  };
+  console.log("User location without handling marker", userLocation);
 
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
@@ -82,19 +103,22 @@ const ProfileScreen = () => {
       dataToUpdate.address = address;
     }
 
-    if (location) {
+    if (userLocation.latitude && userLocation.longitude == null) {
       dataToUpdate.latitude = location.latitude;
       dataToUpdate.longitude = location.longitude;
+    } else {
+      dataToUpdate.latitude = userLocation.latitude;
+      dataToUpdate.longitude = userLocation.longitude;
     }
 
     await setDoc(doc(db, "user", user.uid), dataToUpdate);
-        Alert.alert("Success!", "Your profile has been updated successfully.", [
-          {
-            text: "OK",
-            onPress: () => navigation.goBack(),
-            style: "cancel",
-          },
-        ]);
+    Alert.alert("Success!", "Your profile has been updated successfully.", [
+      {
+        text: "OK",
+        onPress: () => navigation.goBack(),
+        style: "cancel",
+      },
+    ]);
   };
 
   return (
@@ -119,6 +143,9 @@ const ProfileScreen = () => {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView showsVerticalScrollIndicator={false}>
+          <View className="flex items-left justify-center px-4 bg-white w-11/12  rounded-xl shadow border-gray-200 mx-auto">
+            <Text className="font-bold text-lg text-gray-700">My Profile</Text>
+          </View>
           <View className="mb-4">
             <Text className="text-xl font-bold mb-2 text-gray-700">
               First Name
@@ -169,6 +196,7 @@ const ProfileScreen = () => {
               <MapView
                 className="w-full h-40"
                 provider="google"
+                showsUserLocation
                 initialRegion={{
                   latitude: location.latitude || 0,
                   longitude: location.longitude || 0,
@@ -181,6 +209,9 @@ const ProfileScreen = () => {
                     latitude: location.latitude || 0,
                     longitude: location.longitude || 0,
                   }}
+                  draggable={true}
+                  onDragStart={(event) => handleMapPress(event)}
+                  onDragEnd={(event) => handleMapPress(event)}
                 />
               </MapView>
             ) : (
