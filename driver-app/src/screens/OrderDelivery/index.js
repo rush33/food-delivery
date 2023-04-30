@@ -159,7 +159,7 @@ const OrderDelivery = () => {
               : []
           }
           strokeColor="#3FC060"
-          apikey={"AIzaSyCi-MWuhMrs1DfJqTycPWS8N9KorPuAs-0"}
+          apikey={PROCESS.ENV.GOOGLE_MAPS_API_KEY}
           onReady={(result) => {
             setIsDriverClose(result.distance <= 0.1);
             setTotalMinutes(result.duration);
