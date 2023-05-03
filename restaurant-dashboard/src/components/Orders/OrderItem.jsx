@@ -21,17 +21,25 @@ const OrderItem = ({ date, id, total, status, lastName, firstName }) => {
       <td className="pr-6 py-4 text-base whitespace-nowrap">
         <span
           className={`p-2 rounded-xl font-semibold text-xs border-l-4 border-b-4
+                      ${
+                        status == "PENDING" &&
+                        "border border-yellow-400 text-yellow-600 bg-yellow-50"
+                      }
                      ${
-                       status == "NEW" &&
-                       "border border-green-400  text-green-600 bg-green-50"
-                     }
-                     ${
-                       status == "Pending" &&
-                       "border border-yellow-400 text-yellow-600 bg-yellow-50"
-                     }
-                     ${
-                       status == "Declined" &&
+                       status == "DECLINED" &&
                        "border border-red-400  text-red-600 bg-red-50"
+                     }
+                     ${
+                        status == "PREPARING" &&
+                        "border border-yellow-400 text-yellow-600 bg-yellow-50"
+                      }
+                      ${
+                        status == "READY" &&
+                        "border border-orange-400 text-orange-600 bg-orange-50"
+                      }
+                     ${
+                       status == "COMPLETE" &&
+                       "border border-green-500  text-green-600 bg-green-50"
                      }
                   `}
         >

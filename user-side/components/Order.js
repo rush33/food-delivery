@@ -21,7 +21,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
   };
   const formattedDate = orderTimeStamp.toLocaleString("en-US", options);
 
-  if (status === "NEW") {
+  if (status === "PENDING") {
     statusText = "Order Pending ⏳";
     statusColor = "text-yellow-400";
   } else if (status === "ACCEPTED") {
@@ -33,8 +33,11 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
   } else if (status === "PREPARING") {
     statusText = "Preparing Food 🍲";
     statusColor = "text-yellow-500";
+  } else if (status === "READY") {
+    statusText = "Ready for Pickup 🛵";
+    statusColor = "text-green-500";
   } else if (status === "PICKEDUP") {
-    statusText = "Picked Up by Driver 🛵";
+    statusText = "Picked Up by Driver 🚲";
     statusColor = "text-green-500"; // green
   } else if (status === "COMPLETE") {
     statusText = "Delivered ✅";

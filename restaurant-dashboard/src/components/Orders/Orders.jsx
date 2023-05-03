@@ -8,12 +8,10 @@ import {
   orderBy,
   onSnapshot,
 } from "firebase/firestore";
-import OrderModal from "./OrderModal";
 import OrdersList from "./OrdersList";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-  const [isActive, setIsActive] = useState(false);
 
   const restaurantId = "5IdiasERdP0Xq0otooZn";
 
@@ -23,7 +21,7 @@ const Orders = () => {
       ordersRef,
       where("restaurantId", "==", restaurantId),
       orderBy("createdAt", "desc"),
-      where("status", "==", "NEW")
+      where("status", "==", "PENDING")
     );
 
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -40,7 +38,7 @@ const Orders = () => {
 
   return (
     <>
-      <OrdersList orders={orders} setIsActive={setIsActive} />
+      <OrdersList orders={orders} />
     </>
   );
 };

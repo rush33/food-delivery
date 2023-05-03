@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { db } from "../../firebase/firebase";
 import { collection, getDocs, query, where, orderBy } from "firebase/firestore";
-import OrderItem from "./OrderItem";
+import OrderItem from "../Orders/OrderItem";
 
 const OrderHistory = () => {
    const [orders, setOrders] = useState([]);
@@ -43,6 +43,7 @@ const OrderHistory = () => {
              <tr>
                <th className="py-3 pr-6 text-base">Date</th>
                <th className="py-3 pr-6 text-base">Order ID</th>
+               <th className="py-3 pr-6 text-base">Customer Name</th>
                <th className="py-3 pr-6 text-base">Total</th>
                <th className="py-3 pr-6 text-base">Status</th>
              </tr>
@@ -53,6 +54,8 @@ const OrderHistory = () => {
                  <OrderItem
                    date={item.createdAt}
                    id={item.id}
+                   firstName={item.userFirstName}
+                   lastName={item.userLastName}
                    total={item.total}
                    status={item.status}
                  />
