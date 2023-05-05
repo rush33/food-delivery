@@ -25,8 +25,8 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
     statusText = "Order Pending ⏳";
     statusColor = "text-yellow-400";
   } else if (status === "ACCEPTED") {
-    statusText = "Order Confirmed 🍽";
-    statusColor = "text-orange-500";
+    statusText = "Order Confirmed 🎉";
+    statusColor = "text-orange-400";
   } else if (status === "DECLINED") {
     statusText = "Order Declined ❌";
     statusColor = "text-red-500";
@@ -36,12 +36,15 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
   } else if (status === "READY") {
     statusText = "Ready for Pickup 🛵";
     statusColor = "text-green-500";
-  } else if (status === "PICKEDUP") {
+  } else if (status === "DRIVERACCEPTED") {
+    statusText = "Delivery Partner Assigned 🚴🏻‍♀️";
+    statusColor = "text-green-500";
+  } else if (status === "DRIVERPICKEDUP") {
     statusText = "Picked Up by Driver 🚲";
-    statusColor = "text-green-500"; // green
+    statusColor = "text-green-500"; 
   } else if (status === "COMPLETE") {
     statusText = "Delivered ✅";
-    statusColor = "text-green-500"; // green
+    statusColor = "text-green-500"; 
   }
 
   useEffect(() => {
@@ -68,7 +71,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
 
   return (
     <View className="flex items-center justify-center">
-      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-50 shadow-xl shadow-gray-300 ">
+      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-100 shadow-xl shadow-gray-300 ">
         <View className=" w-full">
           <Text className={`font-bold text-2xl ${statusColor}`}>
             {statusText}
@@ -89,7 +92,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
             })}
           </View>
 
-          <View className="flex-row justify-between">
+          <View className="flex-row justify-between mt-2">
             <Text className="font-semibold text-lg pt-1 text-gray-700">
               Order Total:
             </Text>

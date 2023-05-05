@@ -26,6 +26,7 @@ const OrderDelivery = ({ route }) => {
   const [totalMinutes, setTotalMinutes] = useState(0);
   const [totalKm, setTotalKm] = useState(0);
   const [dishInfo, setDishInfo] = useState([]);
+  const [deliveryStatus, setDeliveryStatus] = useState("READY");
   const navigation = useNavigation();
 
   const bottomSheetRef = useRef(null);
@@ -33,11 +34,12 @@ const OrderDelivery = ({ route }) => {
   const snapPoints = useMemo(() => ["12%", "95%"], []);
   const mapRef = useRef(null);
 
-  const STATUSES = {
-    READY_FOR_PICKUP: "READY_FOR_PICKUP",
-    ACCEPTED: "ACCEPTED",
-    PICKED_UP: "PICKED_UP",
-  };
+  // const STATUS = {
+  //   READY_FOR_PICKUP: "READY_FOR_PICKUP",
+  //   ACCEPTED: "DRIVERACCEPTED",
+  //   PICKED_UP: "DRIVERPICKEDUP",
+  //   COMPLETE: "COMPLETE",
+  // };
 
   useEffect(() => {
     getDriverLocation();
@@ -102,6 +104,47 @@ const OrderDelivery = ({ route }) => {
   if (!driverLocation) {
     return <ActivityIndicator size={"large"} />;
   }
+
+  const renderButtonTitle = () => {
+    if (deliveryStatus === "READY") {
+      return "Accept Order";
+    }
+    if (deliveryStatus === "DRIVERACCEPTED") {
+      return "Pick-Up Order";
+    }
+    if (deliveryStatus === "DRIVERPICKEDUP") {
+      return "Pick-Up Order";
+    }
+    if (deliveryStatus === "COMPLETE") {
+      return "Complete Delivery";
+    }
+  };
+
+  const onButtonpressed = () => {
+    if (deliveryStatus === "READY") {
+      bottomSheetRef.current?.collapse();
+      mapRef.current.animateToRegion({
+        latitude: driverLocation.latitude,
+        longitude: driverLocation.longitude,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+      setDeliveryStatus("DRIVERACCEPTED");
+    }
+    if (deliveryStatus === "DRIVERACCEPTED") {
+      bottomSheetRef.current?.collapse();
+      setDeliveryStatus("DRIVERPICKEDUP");
+    }
+    if (deliveryStatus === "DRIVERPICKEDUP") {
+      bottomSheetRef.current?.collapse();
+      setDeliveryStatus("COMPLETE");
+    }
+    if (deliveryStatus === "COMPLETE") {
+      bottomSheetRef.current?.collapse();
+      navigation.goBack();
+      console.warn("Delivery Finished");
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -223,9 +266,9 @@ const OrderDelivery = ({ route }) => {
             ...styles.buttonContainer,
             backgroundColor: "#3FC060",
           }}
-          // onPress={onButtonpressed}
+          onPress={onButtonpressed}
         >
-          <Text style={styles.buttonText}>{/* {renderButtonTitle()} */}</Text>
+          <Text style={styles.buttonText}>{renderButtonTitle()}</Text>
         </Pressable>
       </BottomSheet>
     </View>

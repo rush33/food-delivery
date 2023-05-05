@@ -22,7 +22,7 @@ const OrdersScreen = () => {
     const ordersRef = collection(db, "orders");
     const q = query(
       ordersRef,
-      where("status", "==", "ACCEPTED"),
+      where("status", "==", "READY"),
       orderBy("createdAt", "desc")
     );
 
