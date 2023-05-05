@@ -60,7 +60,7 @@ const BasketScreen = () => {
       userLatitude: dbUser.latitude,
       userLongitude: dbUser.longitude,
       userPhoneNumber: dbUser.phoneNumber,
-      status: "NEW",
+      status: "PENDING",
       total: basketTotal + deliveryFee,
       createdAt: serverTimestamp(),
     });
