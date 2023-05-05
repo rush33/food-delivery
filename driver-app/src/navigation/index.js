@@ -2,7 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import OrdersScreen from "../screens/OrdersScreen";
 import OrdersDeliveryScreen from "../screens/OrderDelivery";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator(); 
 
 const Navigation = () => {
   return (

@@ -1,4 +1,4 @@
-import { useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, useDebugValue } from "react";
 import { View, Text, FlatList, useWindowDimensions } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import orders from "../../../assets/data/orders.json";
@@ -6,8 +6,38 @@ import OrderItem from "../../components/OrderItem";
 import MapView, { Marker } from "react-native-maps";
 import { Entypo } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { db } from "../../../firebase/firebase.js";
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  onSnapshot,
+} from "firebase/firestore";
 
 const OrdersScreen = () => {
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const ordersRef = collection(db, "orders");
+    const q = query(
+      ordersRef,
+      where("status", "==", "ACCEPTED"),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      let item = [];
+      querySnapshot.forEach((doc) => {
+        item.push({ ...doc.data(), id: doc.id });
+      });
+      setOrders(item);
+    });
+
+    return unsubscribe; // Cleanup function to unsubscribe from real-time updates
+  }, []);
+
+
   const bottomSheetRef = useRef(null);
   const { width, height } = useWindowDimensions();
 
@@ -20,17 +50,19 @@ const OrdersScreen = () => {
           height,
           width,
         }}
+        
         showsUserLocation
         followsUserLocation
       >
-        {orders.map((order) => (
+        {orders.map((order, index) => (
           <Marker
-            key={order.id}
-            title={order.Restaurant.name}
-            description={order.Restaurant.address}
+            key={index + 1}
+            id={order.id}
+            title={order.restaurantName}
+            description={order.restaurantAddress}
             coordinate={{
-              latitude: order.Restaurant.lat,
-              longitude: order.Restaurant.lng,
+              latitude: order.restaurantLatitude,
+              longitude: order.restaurantLongitude,
             }}
           >
             <View

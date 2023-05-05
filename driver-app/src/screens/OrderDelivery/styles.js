@@ -24,8 +24,8 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
   },
   restaurantName: {
-    fontSize: 25,
-    letterSpacing: 1,
+    fontWeight: 'bold',
+    fontSize: 26,
     paddingVertical: 20,
   },
   adressContainer: {
