@@ -40,7 +40,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
     statusText = "Delivery Partner Assigned 🚴🏻‍♀️";
     statusColor = "text-green-500";
   } else if (status === "DRIVERPICKEDUP") {
-    statusText = "Picked Up by Driver 🚲";
+    statusText = "Picked Up by Driver 🏍️";
     statusColor = "text-green-500"; 
   } else if (status === "COMPLETE") {
     statusText = "Delivered ✅";

@@ -5,6 +5,7 @@ import {
   useWindowDimensions,
   ActivityIndicator,
   Pressable,
+  Alert,
 } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { FontAwesome5, Fontisto } from "@expo/vector-icons";
@@ -15,7 +16,14 @@ import * as Location from "expo-location";
 import { Entypo, MaterialIcons, Ionicons } from "@expo/vector-icons";
 import MapViewDirections from "react-native-maps-directions";
 import { useNavigation } from "@react-navigation/native";
-import { collection, where, query, getDocs } from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  collection,
+  where,
+  query,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../../../firebase/firebase";
 import Config from "react-native-config";
 import DishInfo from "../../components/DishInfo";
@@ -65,12 +73,17 @@ const OrderDelivery = ({ route }) => {
       }
     })();
 
+    const orderRef = doc(db, "orders", order.id);
+    updateDoc(orderRef, {
+      status: deliveryStatus,
+    });
+
     return () => {
       if (foregroundSubscription) {
         foregroundSubscription.remove();
       }
     };
-  }, []);
+  }, [deliveryStatus]);
 
   const getDriverLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -113,13 +126,13 @@ const OrderDelivery = ({ route }) => {
       return "Pick-Up Order";
     }
     if (deliveryStatus === "DRIVERPICKEDUP") {
-      return "Pick-Up Order";
-    }
-    if (deliveryStatus === "COMPLETE") {
       return "Complete Delivery";
     }
+     if (deliveryStatus === "COMPLETE") {
+       return "Confirm Delivery";
+     }
   };
-
+  console.log(deliveryStatus);
   const onButtonpressed = () => {
     if (deliveryStatus === "READY") {
       bottomSheetRef.current?.collapse();
@@ -141,8 +154,17 @@ const OrderDelivery = ({ route }) => {
     }
     if (deliveryStatus === "COMPLETE") {
       bottomSheetRef.current?.collapse();
+      setDeliveryStatus("COMPLETE");
       navigation.goBack();
-      console.warn("Delivery Finished");
+      Alert.alert(
+        "Order Delivered 🎉",
+        "You delivered the order successfully!",
+        [
+          {
+            text: "OK",
+          },
+        ]
+      );
     }
   };
 
@@ -161,7 +183,7 @@ const OrderDelivery = ({ route }) => {
           longitudeDelta: 0.07,
         }}
       >
-        {/* <MapViewDirections
+        <MapViewDirections
           origin={driverLocation}
           destination={{
             latitude: order.userLatitude,
@@ -181,7 +203,7 @@ const OrderDelivery = ({ route }) => {
             setTotalMinutes(result.duration);
             setTotalKm(result.distance);
           }}
-        /> */}
+        />
         <Marker
           coordinate={{
             latitude: order.restaurantLatitude,
