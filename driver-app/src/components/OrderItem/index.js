@@ -27,13 +27,17 @@ const OrderItem = ({ order }) => {
         }}
       />
       <View style={{ flex: 1, marginLeft: 10, paddingVertical: 5 }}>
-        <Text style={{ fontSize: 18, fontWeight: "500" }}>
+        <Text style={{ fontSize: 18, fontWeight: "700" }}>
           {order.restaurantName}
         </Text>
-        <Text style={{ color: "grey" }}>{order.restaurantAddress}</Text>
+        <Text style={{ color: "grey", fontWeight: "500" }}>
+          {order.restaurantAddress}
+        </Text>
 
-        <Text style={{ marginTop: 10 }}>Delivery Details:</Text>
-        <Text style={{ color: "grey" }}>
+        <Text style={{ marginTop: 10, fontWeight: "600" }}>
+          Delivery Details:
+        </Text>
+        <Text style={{ color: "grey", fontWeight: "500" }}>
           {order.userFirstName} {order.userLastName}
         </Text>
         {/* <Text style={{ color: "grey" }}>{order.userAddress}</Text> */}

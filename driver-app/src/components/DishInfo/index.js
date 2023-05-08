@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   orderItemText: {
-    fontSize: 18,
+    fontSize: 20,
     color: "grey",
     fontWeight: "500",
     letterSpacing: 0.5,

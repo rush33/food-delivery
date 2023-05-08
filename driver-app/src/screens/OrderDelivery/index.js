@@ -9,8 +9,6 @@ import {
 } from "react-native";
 import BottomSheet from "@gorhom/bottom-sheet";
 import { FontAwesome5, Fontisto } from "@expo/vector-icons";
-import orders from "../../../assets/data/orders.json";
-import styles from "./styles";
 import MapView, { Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import { Entypo, MaterialIcons, Ionicons } from "@expo/vector-icons";
@@ -27,6 +25,7 @@ import {
 import { db } from "../../../firebase/firebase";
 import Config from "react-native-config";
 import DishInfo from "../../components/DishInfo";
+import styles from "./styles.js";
 
 const OrderDelivery = ({ route }) => {
   const { order } = route.params;
@@ -41,6 +40,15 @@ const OrderDelivery = ({ route }) => {
   const { width, height } = useWindowDimensions();
   const snapPoints = useMemo(() => ["12%", "95%"], []);
   const mapRef = useRef(null);
+
+  const restaurantLocation = {
+    latitude: order.restaurantLatitude,
+    longitude: order.restaurantLongitude,
+  };
+  const deliveryLocation = {
+    latitude: order.userLatitude,
+    longitude: order.userLongitude,
+  };
 
   // const STATUS = {
   //   READY_FOR_PICKUP: "READY_FOR_PICKUP",
@@ -128,9 +136,9 @@ const OrderDelivery = ({ route }) => {
     if (deliveryStatus === "DRIVERPICKEDUP") {
       return "Complete Delivery";
     }
-     if (deliveryStatus === "COMPLETE") {
-       return "Confirm Delivery";
-     }
+    if (deliveryStatus === "COMPLETE") {
+      return "Confirm Delivery";
+    }
   };
   console.log(deliveryStatus);
   const onButtonpressed = () => {
@@ -185,17 +193,13 @@ const OrderDelivery = ({ route }) => {
       >
         <MapViewDirections
           origin={driverLocation}
-          destination={{
-            latitude: order.userLatitude,
-            longitude: order.userLongitude,
-          }}
+          destination={
+            deliveryStatus === "DRIVERACCEPTED"
+              ? restaurantLocation
+              : deliveryLocation
+          }
           strokeWidth={5}
-          waypoints={[
-            {
-              latitude: order.restaurantLatitude,
-              longitude: order.restaurantLongitude,
-            },
-          ]}
+          waypoints={deliveryStatus === "READY" ? [restaurantLocation] : []}
           strokeColor="green"
           apikey="AIzaSyCi-MWuhMrs1DfJqTycPWS8N9KorPuAs-0"
           onReady={(result) => {
@@ -283,6 +287,19 @@ const OrderDelivery = ({ route }) => {
             })}
           </View>
         </View>
+
+        <Pressable
+          style={{
+            ...styles.buttonContainer,
+            backgroundColor: "#000",
+            position: "absolute",
+            bottom: 80,
+            width: "95%",
+          }}
+          onPress={() => navigation.navigate("OrdersScreen")}
+        >
+          <Text style={styles.buttonText}>Back</Text>
+        </Pressable>
         <Pressable
           style={{
             ...styles.buttonContainer,

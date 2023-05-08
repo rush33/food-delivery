@@ -22,10 +22,11 @@ export default StyleSheet.create({
   },
   deliveryDetailsContainer: {
     paddingHorizontal: 20,
+    paddingHorizontal: 20,
   },
   restaurantName: {
-    fontWeight: 'bold',
-    fontSize: 26,
+    fontWeight: "bold",
+    fontSize: 28,
     paddingVertical: 20,
   },
   adressContainer: {

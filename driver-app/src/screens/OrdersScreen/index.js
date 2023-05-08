@@ -50,7 +50,6 @@ const OrdersScreen = () => {
           height,
           width,
         }}
-        
         showsUserLocation
         followsUserLocation
       >
