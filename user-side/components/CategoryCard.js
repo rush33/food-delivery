@@ -8,7 +8,7 @@ export default function CategoriesCard({ imgUrl, title }) {
         source={{
           uri: imgUrl,
         }}
-        className="h-24 w-24 rounded-xl dr"
+        className="h-24 w-24 rounded-2xl dr"
       />
       <Text className="absolute bottom-1 left-1 text-white font-bold">
         {title}

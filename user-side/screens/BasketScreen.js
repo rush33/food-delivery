@@ -48,17 +48,18 @@ const BasketScreen = () => {
 
   const createOrder = async () => {
     const newOrderRef = await addDoc(ordersCollection, {
-      userId: user.uid,
       restaurantName: restaurant.title,
       restaurantId: restaurant.id,
       restaurantAddress: restaurant.address,
       restaurantImage: restaurant.image,
       restaurantLatitude: restaurant.lat,
       restaurantLongitude: restaurant.lng,
+      userId: user.uid,
       userFirstName: dbUser.firstName,
       userLastName: dbUser.lastName,
       userLatitude: dbUser.latitude,
       userLongitude: dbUser.longitude,
+      userAddress: dbUser.address,
       userPhoneNumber: dbUser.phoneNumber,
       status: "PENDING",
       total: basketTotal + deliveryFee,

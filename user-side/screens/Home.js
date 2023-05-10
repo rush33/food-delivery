@@ -9,8 +9,11 @@ import {
   ScrollView,
   TouchableOpacity,
   Modal,
+  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { XCircleIcon } from "react-native-heroicons/solid";
+
 import {
   ChevronDownIcon,
   UserIcon,
@@ -24,23 +27,30 @@ import RestaurantItem from "../components/RestaurantItem";
 import { db } from "../firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import Search from "../components/Search";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet from "@gorhom/bottom-sheet";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/userSlice";
+import { StatusBar } from "expo-status-bar";
+import MapView, { Marker } from "react-native-maps";
+import SearchCard from "../components/SearchCard";
 
 const Home = () => {
   const { user } = UserAuth();
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
   const [restaurant, setRestaurant] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [dishes, setDishes] = useState([]);
+  const [searchInputHasValue, setSearchInputHasValue] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+
   const bottomSheetRef = useRef(null);
-  const [isOpen, setIsOpen] = useState(true);
-  const [userData, setUserData] = useState([]);
-  const snapPoints = useMemo(() => ["50%"], []);
 
   useEffect(() => {
     getUserData();
     getResData();
+    getDishes();
   }, []);
 
   const getUserData = async () => {
@@ -48,7 +58,6 @@ const Home = () => {
     const docSnap = await getDoc(userRef);
     if (docSnap.exists()) {
       const items = [{ ...docSnap.data(), id: docSnap.id }];
-      console.log(items);
       // setUserData(items);
       dispatch(
         setUser({
@@ -79,10 +88,22 @@ const Home = () => {
     });
   };
 
+  const getDishes = async () => {
+    const dishesRef = collection(db, "dishes");
+
+    await getDocs(dishesRef).then((querySnapshot) => {
+      let dishes = [];
+      querySnapshot.forEach((doc) => {
+        dishes.push({ ...doc.data(), id: doc.id });
+      });
+      setDishes(dishes);
+    });
+  };
+  console.log("Results in Home:", searchResults);
   return (
     <SafeAreaView className="bg-white pt-4">
       {/* Header */}
-
+      <StatusBar style="auto" />
       <View className="flex-row pb-3 items-center mx-4 space-x-2">
         <Image
           source={{
@@ -93,10 +114,12 @@ const Home = () => {
 
         <View className="flex-1">
           <Text className="font-bold  text-gray-400 text-sm">Deliver Now!</Text>
-          <Text onPress={() => setIsOpen(true)} className="font-bold text-xl">
-            Current Location
-            <ChevronDownIcon size={20} color="#00CCBB" />
-          </Text>
+          <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
+            <Text className="font-bold text-xl">
+              Current Location
+              <ChevronDownIcon size={20} color="#00CCBB" />
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity
@@ -107,21 +130,15 @@ const Home = () => {
           <UserIcon size={35} color="#00CCBB" />
         </TouchableOpacity>
       </View>
-      {/* Search */}
-      <Search />
 
-      {isOpen && (
-        <BottomSheet
-          ref={bottomSheetRef}
-          snapPoints={snapPoints}
-          enablePanDownToClose={true}
-          onClose={() => setIsOpen(false)}
-        >
-          <BottomSheetView>
-            <Text>Awesome 🎉</Text>
-          </BottomSheetView>
-        </BottomSheet>
-      )}
+      {/* Search */}
+      <Search
+        restaurants={restaurant}
+        dishes={dishes}
+        setSearchInputHasValue={setSearchInputHasValue}
+        setSearchResults={setSearchResults}
+      />
+
       {/* Body */}
       <ScrollView
         className="bg-white"
@@ -129,47 +146,87 @@ const Home = () => {
           paddingBottom: 140,
         }}
       >
-        {/* Categores */}
-        <Categories />
+        {searchInputHasValue ? (
+          searchResults.map((result, index) => {
+            return <SearchCard key={index} results={result} />;
+          })
+        ) : (
+          <>
+            {/* Categores */}
+            <Categories />
 
-        {/* Featured Rows */}
-        {featuredData.map((item, index) => {
-          return (
-            <FeaturedRow
-              key={index}
-              id={item.id}
-              title={item.title}
-              description={item.description}
-              featuredCategory="featured"
-            />
-          );
-        })}
-        <View className="px-4">
-          <Text className="my-4 font-bold text-2xl">
-            Explore all restaurants
-          </Text>
-          {restaurant.map((item, index) => {
-            return (
-              <RestaurantItem
-                key={index}
-                id={item.id}
-                title={item.name}
-                rating={item.rating}
-                description={item.description}
-                address={item.address}
-                genre={item.genre}
-                image={item.image}
-                lat={item.lat}
-                lng={item.lng}
-                minDeliveryTime={item.minDeliveryTime}
-                maxDeliveryTime={item.maxDeliveryTime}
-              />
-            );
-          })}
-        </View>
-        {/* <Text className="mt-4 text-center font-light text-xs">
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}
+            >
+              <View className="flex-1 justify-center items-center rounded-t-3xl mt-96 bg-white z-30 border-2 border-gray-200 space-y-4">
+                <View className=" w-full flex-row justify-between items-center ">
+                  <Text className="ml-4 text-2xl font-bold text-center text-gray-700">
+                    Current Location
+                  </Text>
+
+                  <TouchableOpacity
+                    onPress={() => setModalVisible(!modalVisible)}
+                    className="rounded-full mr-4"
+                  >
+                    <XCircleIcon color="#00CCBB" height={48} width={48} />
+                  </TouchableOpacity>
+                </View>
+                <View className="w-full h-80 rounded-2xl overflow-hidden border border-gray-300">
+                  <MapView
+                    className="w-full h-full"
+                    provider="google"
+                    showsUserLocation
+                  />
+                </View>
+              </View>
+            </Modal>
+
+            {/* Featured Rows */}
+            {featuredData.map((item, index) => {
+              return (
+                <FeaturedRow
+                  key={index}
+                  id={item.id}
+                  title={item.title}
+                  description={item.description}
+                  featuredCategory="featured"
+                />
+              );
+            })}
+            <View className="px-4">
+              <Text className="my-4 font-bold text-2xl">
+                Explore all restaurants
+              </Text>
+              {restaurant.map((item, index) => {
+                return (
+                  <RestaurantItem
+                    key={index}
+                    id={item.id}
+                    title={item.name}
+                    rating={item.rating}
+                    description={item.description}
+                    address={item.address}
+                    genre={item.genre}
+                    image={item.image}
+                    lat={item.lat}
+                    lng={item.lng}
+                    minDeliveryTime={item.minDeliveryTime}
+                    maxDeliveryTime={item.maxDeliveryTime}
+                  />
+                );
+              })}
+            </View>
+
+            {/* <Text className="mt-4 text-center font-light text-xs">
           Made with ❤ by Rushad
         </Text> */}
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );

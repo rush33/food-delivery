@@ -25,6 +25,7 @@ const RestaurantDetails = () => {
       id,
       title,
       rating,
+      description,
       address,
       image,
       lat,
@@ -43,6 +44,7 @@ const RestaurantDetails = () => {
         title,
         rating,
         address,
+        description,
         image,
         lat,
         lng,
@@ -111,7 +113,7 @@ const RestaurantDetails = () => {
             </View>
           </View>
 
-          <Text className="text-gray-500 mt-2 pb-4 px-5">dummy text</Text>
+          <Text className="text-gray-500 mt-2 pb-4 px-5">{description}</Text>
         </View>
 
         <View className="pb-36">

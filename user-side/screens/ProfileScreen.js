@@ -115,15 +115,14 @@ const ProfileScreen = () => {
       <StatusBar style="auto" />
 
       <View className="p-5 bg-white shadow-xs">
-        <Pressable
-          onPress={navigation}
-          className="absolute top-6 left-3 bg-white  rounded-full"
+        <TouchableOpacity
+          className="absolute top-4 left-4 bg-white p-2 rounded-full"
         >
-          <ArrowLeftIcon size={25} color="#00CCBB" />
-        </Pressable>
+          <ArrowLeftIcon size={30} color="#00CCBB" />
+        </TouchableOpacity>
 
         <View>
-          <Text className="text-2xl font-bold ml-7">Update your details</Text>
+          <Text className="text-xl font-bold text-center">Update your details</Text>
         </View>
       </View>
 
