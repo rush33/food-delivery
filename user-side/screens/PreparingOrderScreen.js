@@ -17,7 +17,7 @@ const PreparingOrderScreen = () => {
           style: "cancel",
         },
       ]);
-    }, 3000);
+    }, 2000);
   }, []);
 
   return (

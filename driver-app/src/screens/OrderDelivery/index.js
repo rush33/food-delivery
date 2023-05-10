@@ -201,7 +201,7 @@ const OrderDelivery = ({ route }) => {
           strokeWidth={5}
           waypoints={deliveryStatus === "READY" ? [restaurantLocation] : []}
           strokeColor="green"
-          apikey={API_KEY}
+          apikey="AIzaSyCi-MWuhMrs1DfJqTycPWS8N9KorPuAs-0"
           onReady={(result) => {
             // setIsDriverClose(result.distance <= 0.1);
             setTotalMinutes(result.duration);
@@ -272,7 +272,7 @@ const OrderDelivery = ({ route }) => {
 
           <View style={styles.adressContainer}>
             <FontAwesome5 name="map-marker-alt" size={30} color="grey" />
-            <Text style={styles.adressText}>UserAddressHere</Text>
+            <Text style={styles.adressText}>{order.userAddress}</Text>
           </View>
 
           <View style={styles.orderDetailsContainer}>
@@ -288,18 +288,21 @@ const OrderDelivery = ({ route }) => {
           </View>
         </View>
 
-        <Pressable
-          style={{
-            ...styles.buttonContainer,
-            backgroundColor: "#000",
-            position: "absolute",
-            bottom: 80,
-            width: "95%",
-          }}
-          onPress={() => navigation.navigate("OrdersScreen")}
-        >
-          <Text style={styles.buttonText}>Back</Text>
-        </Pressable>
+        {deliveryStatus === "READY" && (
+          <Pressable
+            style={{
+              ...styles.buttonContainer,
+              backgroundColor: "#000",
+              position: "absolute",
+              bottom: 80,
+              width: "95%",
+            }}
+            onPress={() => navigation.navigate("OrdersScreen")}
+          >
+            <Text style={styles.buttonText}>Back</Text>
+          </Pressable>
+        )}
+
         <Pressable
           style={{
             ...styles.buttonContainer,

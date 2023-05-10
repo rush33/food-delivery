@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import { StatusBar } from 'expo-status-bar';
+import { StatusBar } from "expo-status-bar";
 import {
   TouchableOpacity,
   StyleSheet,
@@ -38,7 +38,7 @@ const SignUp = () => {
     }
     try {
       await createUser(value.email, value.password);
-      navigation.navigate("UserDetails");
+      navigation.navigate("User Details");
     } catch (error) {
       Alert.alert("Please try again", error.message);
     }
