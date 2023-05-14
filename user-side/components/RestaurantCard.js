@@ -23,16 +23,6 @@ const RestaurantCard = ({
       onPress={() => {
         navigation.navigate("Restaurant", {
           id,
-          title,
-          rating,
-          genre,
-          address,
-          image,
-          description,
-          lat,
-          lng,
-          minDeliveryTime,
-          maxDeliveryTime,
         });
       }}
       className="bg-white mr-3 rounded-2xl border border-gray-200"

@@ -115,14 +115,14 @@ const ProfileScreen = () => {
       <StatusBar style="auto" />
 
       <View className="p-5 bg-white shadow-xs">
-        <TouchableOpacity
-          className="absolute top-4 left-4 bg-white p-2 rounded-full"
-        >
+        <TouchableOpacity className="absolute top-4 left-4 bg-white p-2 rounded-full">
           <ArrowLeftIcon size={30} color="#00CCBB" />
         </TouchableOpacity>
 
         <View>
-          <Text className="text-xl font-bold text-center">Update your details</Text>
+          <Text className="text-xl font-bold text-center">
+            Update your details
+          </Text>
         </View>
       </View>
 
@@ -141,7 +141,7 @@ const ProfileScreen = () => {
             </Text>
           </View>
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-black">
               First Name
             </Text>
             <TextInput
@@ -152,9 +152,7 @@ const ProfileScreen = () => {
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
-              Last Name
-            </Text>
+            <Text className="text-xl font-bold mb-2 text-black">Last Name</Text>
             <TextInput
               className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={lastName}
@@ -163,7 +161,7 @@ const ProfileScreen = () => {
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-black">
               Phone Number
             </Text>
             <TextInput
@@ -175,7 +173,7 @@ const ProfileScreen = () => {
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-xl font-bold mb-2 text-black">
               Street Address
             </Text>
             <TextInput
@@ -218,9 +216,9 @@ const ProfileScreen = () => {
 
           <TouchableOpacity
             onPress={onSave}
-            className="rounded-2xl bg-[#00CCBB] p-3 mb-6"
+            className="mx-auto w-10/12 my-8 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
           >
-            <Text className="text-center text-white text-xl font-bold">
+            <Text className="text-center text-gray-700 font-extrabold text-xl">
               Update
             </Text>
           </TouchableOpacity>

@@ -43,12 +43,13 @@ const BasketScreen = () => {
     setGroupItemsInBucket(groupItems);
   }, [items]);
 
+  
   const ordersCollection = collection(db, "orders");
   const orderDishesCollection = collection(db, "orderDishes");
 
   const createOrder = async () => {
     const newOrderRef = await addDoc(ordersCollection, {
-      restaurantName: restaurant.title,
+      restaurantName: restaurant.name,
       restaurantId: restaurant.id,
       restaurantAddress: restaurant.address,
       restaurantImage: restaurant.image,
@@ -79,13 +80,12 @@ const BasketScreen = () => {
     navigation.navigate("PreparingOrderScreen");
   };
 
-  console.log(restaurant);
-  console.log(dbUser);
+  console.log("Res:", restaurant);
 
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-1 bg-gray-50">
-        <View className="p-3 border-b border-[#00CCBB] bg-white shadow-xs">
+        <View className="p-3 border-b border-[#4ade80] bg-white shadow-xs">
           <View>
             <Text className="text-lg font-bold text-center">Basket</Text>
             <Text className="text-center text-gray-400">
@@ -97,7 +97,7 @@ const BasketScreen = () => {
             onPress={navigation.goBack}
             className="rounded-full bg-gray-100 absolute top-3 right-5"
           >
-            <XCircleIcon color="#00CCBB" height={50} width={50} />
+            <XCircleIcon color="#4ade80" height={50} width={50} />
           </TouchableOpacity>
         </View>
 
@@ -113,7 +113,7 @@ const BasketScreen = () => {
             min
           </Text>
           <TouchableOpacity>
-            <Text className="text-[#00CCBB]">Change</Text>
+            <Text className="text-[#22c55e]">Change</Text>
           </TouchableOpacity>
         </View>
 
@@ -123,7 +123,7 @@ const BasketScreen = () => {
               key={key}
               className="flex-row items-center space-x-3 bg-white py-2 px-5"
             >
-              <Text className="text-[#00CCBB]">{items.length} x</Text>
+              <Text className="text-[#22c55e]">{items.length} x</Text>
               <Image
                 source={{ uri: restaurant.image }}
                 className="h-12 w-12 rounded-full"
@@ -134,7 +134,7 @@ const BasketScreen = () => {
               </Text>
               <TouchableOpacity>
                 <Text
-                  className="text-[#00CCBB] text-xs"
+                  className="text-[#22c55e] text-xs"
                   onPress={() => dispatch(removeFromBasket({ id: key }))}
                 >
                   Remove
@@ -169,9 +169,9 @@ const BasketScreen = () => {
             onPress={() => {
               createOrder();
             }}
-            className="rounded-2xl bg-[#00CCBB] p-4"
+            className="rounded-2xl p-3 hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
           >
-            <Text className="text-center text-white text-lg font-bold">
+            <Text className="text-center text-gray-700 font-extrabold text-xl">
               Place Order
             </Text>
           </TouchableOpacity>

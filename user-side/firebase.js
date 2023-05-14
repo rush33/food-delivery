@@ -8,6 +8,7 @@ import {
 } from "firebase/auth/react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const firebaseConfig = {
   apiKey: "AIzaSyBJcwDzUMNJLKzAEyvRwACMYOrUS1u3oR0",
   authDomain: "food-delivery-e0cba.firebaseapp.com",

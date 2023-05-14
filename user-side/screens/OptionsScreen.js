@@ -23,7 +23,7 @@ const OptionsScreen = () => {
             // onPress={navigation.goBack()}
             className="absolute top-4 left-4 bg-white p-2 rounded-full"
           >
-            <ArrowLeftIcon size={30} color="#00CCBB" />
+            <ArrowLeftIcon size={30} color="#22c55e" />
           </Pressable>
 
           <View>
@@ -55,9 +55,9 @@ const OptionsScreen = () => {
 
         <TouchableOpacity
           onPress={signOutUser}
-          className="rounded-2xl bg-[#00CCBB] p-3 mx-4 my-8"
+          className="mx-auto w-10/12 my-8 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
         >
-          <Text className="text-center text-white text-lg font-semibold">
+          <Text className="text-center text-gray-700 font-extrabold text-xl">
             Sign Out
           </Text>
         </TouchableOpacity>

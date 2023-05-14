@@ -41,6 +41,7 @@ const SignIn = () => {
     }
   };
 
+
   return (
     <SafeAreaView className="w-full h-full bg-white flex justify-center ">
       <StatusBar style="auto" />
@@ -77,7 +78,7 @@ const SignIn = () => {
               onPress={onSignIn}
               className="mx-auto w-10/12 my-3 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
             >
-              <Text className="text-center text-gray-700 font-bold text-xl">
+              <Text className="text-center text-gray-700 font-extrabold text-xl">
                 Sign In
               </Text>
             </TouchableOpacity>

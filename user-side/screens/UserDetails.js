@@ -82,39 +82,39 @@ const UserDetails = () => {
         className="flex-1 px-4 pt-4 bg-white"
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
-        <Text className="text-2xl font-bold mb-4 text-gray-700">
-          A few more details ...
+        <Text className="text-[28px] font-bold mb-4 text-black tracking-wide">
+          More details:
         </Text>
 
         <ScrollView showsVerticalScrollIndicator={false}>
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-[21px] font-bold mb-2 text-gray-800">
               First Name
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-green-400 focus:border-green-400"
               value={firstName}
               onChangeText={setFirstName}
             />
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-[21px] font-bold mb-2 text-gray-800">
               Last Name
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-green-400 focus:border-green-400"
               value={lastName}
               onChangeText={setLastName}
             />
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-[21px] font-bold mb-2 text-gray-800">
               Phone Number
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-green-400 focus:border-green-400"
               value={phoneNumber}
               onChangeText={setPhoneNumber}
               keyboardType="phone-pad"
@@ -122,11 +122,11 @@ const UserDetails = () => {
           </View>
 
           <View className="mb-4">
-            <Text className="text-xl font-bold mb-2 text-gray-700">
+            <Text className="text-[21px] font-bold mb-2 text-gray-800">
               Street Address
             </Text>
             <TextInput
-              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
+              className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-green-400 focus:border-green-400"
               value={address}
               onChangeText={setAddress}
             />
@@ -164,9 +164,9 @@ const UserDetails = () => {
             onPress={() => {
               onSave();
             }}
-            className="rounded-xl bg-[#00CCBB] p-3"
+            className="mx-auto w-10/12 my-3 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
           >
-            <Text className="text-center text-white text-xl font-bold">
+            <Text className="text-center text-gray-700 font-extrabold text-xl">
               Sign Up
             </Text>
           </TouchableOpacity>

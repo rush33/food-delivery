@@ -23,7 +23,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
 
   if (status === "PENDING") {
     statusText = "Order Pending ⏳";
-    statusColor = "text-yellow-400";
+    statusColor = "text-amber-400";
   } else if (status === "ACCEPTED") {
     statusText = "Order Confirmed 🎉";
     statusColor = "text-orange-400";
@@ -71,7 +71,7 @@ const Order = ({ orderId, status, timestamp, restaurantName, total }) => {
 
   return (
     <View className="flex items-center justify-center">
-      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-100 shadow-xl shadow-gray-300 ">
+      <Pressable className="px-6 py-6 mt-4 bg-white w-11/12 h-auto rounded-2xl flex-row justify-between items-center border border-gray-100 shadow shadow-gray-300 ">
         <View className=" w-full">
           <Text className={`font-bold text-2xl ${statusColor}`}>
             {statusText}

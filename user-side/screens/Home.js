@@ -1,15 +1,13 @@
-import { useState, useEffect, useCallback, useMemo, useRef } from "react";
+import { useState, useEffect} from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserAuth } from "../contexts/AuthContext";
 import {
   View,
   Text,
   Image,
-  TextInput,
   ScrollView,
   TouchableOpacity,
   Modal,
-  Pressable,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { XCircleIcon } from "react-native-heroicons/solid";
@@ -17,8 +15,6 @@ import { XCircleIcon } from "react-native-heroicons/solid";
 import {
   ChevronDownIcon,
   UserIcon,
-  AdjustmentsVerticalIcon,
-  MagnifyingGlassIcon,
 } from "react-native-heroicons/outline";
 import Categories from "../components/Categories";
 import featuredData from "../assets/featuredData.json";
@@ -27,11 +23,10 @@ import RestaurantItem from "../components/RestaurantItem";
 import { db } from "../firebase";
 import { collection, getDocs, doc, getDoc } from "firebase/firestore";
 import Search from "../components/Search";
-import BottomSheet from "@gorhom/bottom-sheet";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/userSlice";
 import { StatusBar } from "expo-status-bar";
-import MapView, { Marker } from "react-native-maps";
+import MapView from "react-native-maps";
 import SearchCard from "../components/SearchCard";
 
 const Home = () => {
@@ -44,8 +39,6 @@ const Home = () => {
   const [dishes, setDishes] = useState([]);
   const [searchInputHasValue, setSearchInputHasValue] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-
-  const bottomSheetRef = useRef(null);
 
   useEffect(() => {
     getUserData();
@@ -117,7 +110,7 @@ const Home = () => {
           <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
             <Text className="font-bold text-xl">
               Current Location
-              <ChevronDownIcon size={20} color="#00CCBB" />
+              <ChevronDownIcon size={20} color="#48bb78" />
             </Text>
           </TouchableOpacity>
         </View>
@@ -127,7 +120,7 @@ const Home = () => {
             navigation.navigate("Options");
           }}
         >
-          <UserIcon size={35} color="#00CCBB" />
+          <UserIcon size={35} color="#48bb78" />
         </TouchableOpacity>
       </View>
 
@@ -145,6 +138,7 @@ const Home = () => {
         contentContainerStyle={{
           paddingBottom: 140,
         }}
+        showsVerticalScrollIndicator={false}
       >
         {searchInputHasValue ? (
           searchResults.map((result, index) => {

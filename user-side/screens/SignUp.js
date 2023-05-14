@@ -80,7 +80,7 @@ const SignUp = () => {
               onPress={onSignUp}
               className="mx-auto w-10/12 my-3 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
             >
-              <Text className="text-center text-gray-700 font-bold text-xl">
+              <Text className="text-center text-gray-700 font-extrabold text-xl">
                 Next
               </Text>
             </TouchableOpacity>

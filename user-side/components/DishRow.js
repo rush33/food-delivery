@@ -60,19 +60,19 @@ const DishRow = ({ id, name, description, price, image, restaurantId }) => {
               <View className="flex-row items-center justify-between ">
                 <TouchableOpacity onPress={removeItemFromBasket}>
                   <MinusCircleIcon
-                    color={items.length > 0 ? "#00CCBB" : "lightgray"}
+                    color={items.length > 0 ? "#4ade80" : "lightgray"}
                     size={42}
                   />
                 </TouchableOpacity>
 
                 {items.length === 0 ? (
-                  <Text>{" "}</Text>
+                  <Text> </Text>
                 ) : (
                   <Text>{items.length}</Text>
                 )}
 
                 <TouchableOpacity onPress={addItems}>
-                  <PlusCircleIcon color="#00CCBB" size={42} />
+                  <PlusCircleIcon color="#4ade80" size={42} />
                 </TouchableOpacity>
               </View>
             </View>

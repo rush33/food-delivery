@@ -26,17 +26,7 @@ const RestaurantItem = ({
     <Pressable
       onPress={() => {
         navigation.navigate("Restaurant", {
-          id,
-          title,
-          rating,
-          address,
-          image,
-          genre,
-          description,
-          lat,
-          lng,
-          minDeliveryTime,
-          maxDeliveryTime,
+          id
         });
       }}
       className="bg-white my-2 flex-row rounded-2xl border border-gray-200 space-x-1"

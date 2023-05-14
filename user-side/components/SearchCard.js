@@ -11,22 +11,13 @@ import { useNavigation } from "@react-navigation/native";
 
 const SearchCard = ({ results }) => {
   const navigation = useNavigation();
-  console.log(results);
+  const id = results.restaurantId ? results.restaurantId : results.id;
+
   return (
     <Pressable
       onPress={() => {
         navigation.navigate("Restaurant", {
           id,
-          title,
-          rating,
-          address,
-          image,
-          genre,
-          description,
-          lat,
-          lng,
-          minDeliveryTime,
-          maxDeliveryTime,
         });
       }}
       className="mx-auto my-4 rounded-2xl w-11/12 h-32 border border-gray-100 space-x-1 flex-row overflow-hidden"
