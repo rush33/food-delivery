@@ -34,6 +34,7 @@ const UserDetails = () => {
   ];
   const [locationPermission, setLocationPermission] = useState(null);
   const [location, setLocation] = useState(null);
+  const [validLocation, setValidLocation] = useState(null);
   const navigation = useNavigation();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -60,23 +61,25 @@ const UserDetails = () => {
   const getLocation = async () => {
     let { coords } = await Location.getCurrentPositionAsync({});
     setLocation(coords);
+    setValidLocation(
+      isPointInPolygon(
+        {
+          latitude: coords.latitude,
+          longitude: coords.longitude,
+        },
+        serviceableArea
+      )
+    );
   };
-
-  const isLocationValid = isPointInPolygon(
-    {
-      latitude: location.latitude,
-      longitude: location.longitude,
-    },
-    serviceableArea
-  );
 
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
-      alert("Please fill in all required fields");
+      Alert.alert("Please fill in all required fields");
       return;
     }
+    
 
-    if (isLocationValid) {
+    if (validLocation) {
       console.log("uid in user details:", user.uid);
       await setDoc(doc(db, "user", user.uid), {
         firstName: firstName,
@@ -90,7 +93,16 @@ const UserDetails = () => {
         userId: user.uid,
       });
     } else {
-      Alert.alert("Sorry, we don't serve in your area yet");
+      Alert.alert(
+        "We apologize ☹️",
+        "Your location is not serviceable at the moment.",
+        [
+          {
+            text: "ok",
+            style: "cancel",
+          },
+        ]
+      );
     }
   };
 
