@@ -19,6 +19,18 @@ import * as Location from "expo-location";
 import { StatusBar } from "expo-status-bar";
 
 const UserDetails = () => {
+  const serviceableArea = [
+    { latitude: 27.45806, longitude: 94.86509 }, //point 3
+    { latitude: 27.43221, longitude: 94.87659 }, //point 4
+    { latitude: 27.42663, longitude: 94.88422 }, //point 5
+    { latitude: 27.42913, longitude: 94.89302 }, //point 6
+    { latitude: 27.43654, longitude: 94.91953 }, //point 7
+    { latitude: 27.46781, longitude: 94.95493 }, //point 8
+    { latitude: 27.50657, longitude: 94.95214 }, //point 9
+    { latitude: 27.50187, longitude: 94.93244 }, //point 10
+    { latitude: 27.49088, longitude: 94.91515 }, //point 11
+    { latitude: 27.46932, longitude: 94.87897 }, //point 12
+  ];
   const [locationPermission, setLocationPermission] = useState(null);
   const [location, setLocation] = useState(null);
   const navigation = useNavigation();
@@ -49,30 +61,36 @@ const UserDetails = () => {
     setLocation(coords);
   };
 
-  // const handleMapPress = (event) => {
-  //   const { latitude, longitude } = event.nativeEvent.coordinate;
-  //   setLatitude(latitude);
-  //   setLongitude(longitude);
-  //   console.log(latitude, longitude);
-  // };
+  const isLocationValid = isPointInPolygon(
+    {
+      latitude: location.latitude,
+      longitude: location.longitude,
+    },
+    serviceableArea
+  );
 
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
       alert("Please fill in all required fields");
       return;
     }
-    console.log("uid in user details:", user.uid);
-    await setDoc(doc(db, "user", user.uid), {
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      address: address,
-      latitude: location.latitude,
-      longitude: location.longitude,
-    });
-    navigation.navigate("Home", {
-      userId: user.uid,
-    });
+
+    if (isLocationValid) {
+      console.log("uid in user details:", user.uid);
+      await setDoc(doc(db, "user", user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        address: address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      navigation.navigate("Home", {
+        userId: user.uid,
+      });
+    } else {
+      Alert.alert("Sorry, we don't serve in your area yet");
+    }
   };
 
   return (
