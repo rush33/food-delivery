@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { UserAuth } from "../contexts/AuthContext";
 import {
@@ -12,10 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { XCircleIcon } from "react-native-heroicons/solid";
 
-import {
-  ChevronDownIcon,
-  UserIcon,
-} from "react-native-heroicons/outline";
+import { ChevronDownIcon, UserIcon } from "react-native-heroicons/outline";
 import Categories from "../components/Categories";
 import featuredData from "../assets/featuredData.json";
 import FeaturedRow from "../components/FeaturedRow";
