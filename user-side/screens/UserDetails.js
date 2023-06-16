@@ -72,37 +72,30 @@ const UserDetails = () => {
     );
   };
 
+  // const handleMapPress = (event) => {
+  //   const { latitude, longitude } = event.nativeEvent.coordinate;
+  //   setLatitude(latitude);
+  //   setLongitude(longitude);
+  //   console.log(latitude, longitude);
+  // };
+
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
       Alert.alert("Please fill in all required fields");
       return;
     }
-
-    if (validLocation) {
-      console.log("uid in user details:", user.uid);
-      await setDoc(doc(db, "user", user.uid), {
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        address: address,
-        latitude: location.latitude,
-        longitude: location.longitude,
-      });
-      navigation.navigate("Home", {
-        userId: user.uid,
-      });
-    } else {
-      Alert.alert(
-        "We apologize ☹️",
-        "Your location is not serviceable at the moment.",
-        [
-          {
-            text: "ok",
-            style: "cancel",
-          },
-        ]
-      );
-    }
+    console.log("uid in user details:", user.uid);
+    await setDoc(doc(db, "user", user.uid), {
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      address: address,
+      latitude: location.latitude,
+      longitude: location.longitude,
+    });
+    navigation.navigate("Home", {
+      userId: user.uid,
+    });
   };
 
   return (
