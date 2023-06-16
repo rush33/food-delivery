@@ -11,6 +11,8 @@ const OptionsScreen = () => {
   const [name, setName] = useState("");
   const { dbUser, signOutUser } = UserAuth();
 
+  console.log("user:", dbUser)
+
   useEffect(() => {
     setName(dbUser?.firstName);
   }, []);

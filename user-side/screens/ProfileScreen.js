@@ -35,7 +35,7 @@ const ProfileScreen = () => {
     longitude: null,
   });
   const dbUser = useSelector(selectUser);
-  // const { user } = UserAuth();
+  const { user } = UserAuth();
 
   useEffect(() => {
     getLocationPermission();

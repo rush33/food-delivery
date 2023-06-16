@@ -21,6 +21,11 @@ const SignIn = () => {
   });
   const navigation = useNavigation();
   const { signInUser } = UserAuth();
+  const { signInWithGoogle } = UserAuth();
+
+  const googleSignIn = () => {
+    signInWithGoogle();
+  };
 
   const onSignIn = async () => {
     let errorMessage = "";
@@ -40,7 +45,6 @@ const SignIn = () => {
       Alert.alert("Please try again", error.message);
     }
   };
-
 
   return (
     <SafeAreaView className="w-full h-full bg-white flex justify-center ">
@@ -76,13 +80,30 @@ const SignIn = () => {
           <View>
             <TouchableOpacity
               onPress={onSignIn}
-              className="mx-auto w-10/12 my-3 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
+              className="mx-auto w-10/12 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
             >
               <Text className="text-center text-gray-700 font-extrabold text-xl">
-                Sign In
+                Sign In 
               </Text>
             </TouchableOpacity>
           </View>
+
+          {/* <View>
+            <TouchableOpacity
+              onPress={googleSignIn}
+              className="mx-auto w-10/12 items-center p-2 rounded-2xl  hover:bg-yellow-200 active:bg-yellow-400 duration-150 bg-yellow-300 border-l-4 border-b-4 border-yellow-600"
+            >
+              <Text className="text-center text-gray-700 font-extrabold text-xl">
+                Sign In With {""}
+                <Icon
+                  style={styles.icon}
+                  name="google"
+                  size={22}
+                  color="#ca8a04"
+                />
+              </Text>
+            </TouchableOpacity>
+          </View> */}
         </View>
         <Text className="text-center text-gray-700 font-semibold text-base">
           Don't have an account?{" "}

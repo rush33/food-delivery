@@ -128,16 +128,16 @@ const OrderDelivery = ({ route }) => {
 
   const renderButtonTitle = () => {
     if (deliveryStatus === "READY") {
-      return "Accept Order";
+      return "Accept Order ✅";
     }
     if (deliveryStatus === "DRIVERACCEPTED") {
-      return "Pick-Up Order";
+      return "Pick-Up Order 🛵";
     }
     if (deliveryStatus === "DRIVERPICKEDUP") {
-      return "Complete Delivery";
+      return "Payment Received 💵";
     }
     if (deliveryStatus === "COMPLETE") {
-      return "Confirm Delivery";
+      return "Complete Delivery 🎉";
     }
   };
   console.log(deliveryStatus);

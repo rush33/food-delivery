@@ -64,38 +64,46 @@ const UserDetails = () => {
     setValidLocation(
       isPointInPolygon(
         {
-          latitude: 27.439309,
-          longitude: 94.848558,
+          latitude: coords.latitude,
+          longitude: coords.longitude,
         },
         serviceableArea
       )
     );
   };
 
-  // const handleMapPress = (event) => {
-  //   const { latitude, longitude } = event.nativeEvent.coordinate;
-  //   setLatitude(latitude);
-  //   setLongitude(longitude);
-  //   console.log(latitude, longitude);
-  // };
-
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
       Alert.alert("Please fill in all required fields");
       return;
     }
-    console.log("uid in user details:", user.uid);
-    await setDoc(doc(db, "user", user.uid), {
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      address: address,
-      latitude: location.latitude,
-      longitude: location.longitude,
-    });
-    navigation.navigate("Home", {
-      userId: user.uid,
-    });
+    
+
+    if (validLocation) {
+      console.log("uid in user details:", user.uid);
+      await setDoc(doc(db, "user", user.uid), {
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber,
+        address: address,
+        latitude: location.latitude,
+        longitude: location.longitude,
+      });
+      navigation.navigate("Home", {
+        userId: user.uid,
+      });
+    } else {
+      Alert.alert(
+        "We apologize ☹️",
+        "Your location is not serviceable at the moment.",
+        [
+          {
+            text: "ok",
+            style: "cancel",
+          },
+        ]
+      );
+    }
   };
 
   return (
