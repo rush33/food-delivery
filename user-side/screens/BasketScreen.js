@@ -101,7 +101,7 @@ const BasketScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <View className="flex-row items-center space-x-4 px-4 py-3 bg-white my-5">
+        <View className="flex-row items-center space-x-4 px-4 py-3 bg-white my-5 border border-gray-100">
           <Image
             source={{
               uri: "https://www.pngitem.com/pimgs/m/533-5338534_motor-21-philosophychicchic-home-delivery-service-bike-hd.png",
@@ -112,16 +112,13 @@ const BasketScreen = () => {
             Deliver in {restaurant.minDeliveryTime}-{restaurant.maxDeliveryTime}{" "}
             min
           </Text>
-          <TouchableOpacity>
-            <Text className="text-[#22c55e]">Change</Text>
-          </TouchableOpacity>
         </View>
 
         <ScrollView className="divide-y divide-gray-200">
           {Object.entries(groupItemsInBucket).map(([key, items]) => (
             <View
               key={key}
-              className="flex-row items-center space-x-3 bg-white py-2 px-5"
+              className="flex-row items-center space-x-3 bg-white py-2 px-5 border-top border-gray-100"
             >
               <Text className="text-[#22c55e]">{items.length} x</Text>
               <Image
@@ -143,7 +140,21 @@ const BasketScreen = () => {
             </View>
           ))}
         </ScrollView>
-        <View className="p-5 bg-white mt-5 space-y-4">
+
+        <View className="flex-row items-center top-4 space-x-4 px-4 py-3 bg-white my-5 border border-gray-100">
+          <Image
+            source={{
+              uri: "https://img.icons8.com/?size=512&id=76948&format=png",
+            }}
+            className="h-7 w-7 bg-gray-300 p-4 rounded-full"
+          />
+          <Text className="flex-1">Cash on Delivery</Text>
+          <View>
+            <Text className="text-gray-300">Change</Text>
+          </View>
+        </View>
+
+        <View className="p-5 bg-white mt-5 space-y-4 border-top border-gray-100">
           <View className="flex-row justify-between">
             <Text className="text-gray-400">SubTotal</Text>
             <Text className="text-gray-400">

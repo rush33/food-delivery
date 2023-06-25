@@ -19,23 +19,50 @@ const SignUp = () => {
   const [value, setValue] = useState({
     email: "",
     password: "",
-    error: "",
+    emailError: "",
+    passwordError: "",
   });
   const navigation = useNavigation();
   const { createUser } = UserAuth();
 
+  const validateEmail = (email) => {
+    // Regular expression to validate email
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    // Minimum 6 characters for password
+    return password.length >= 6;
+  };
+
   const onSignUp = async () => {
-    let errorMessage = "";
+    let emailError = "";
+    let passwordError = "";
+
     if (value.email === "") {
-      errorMessage += "Email cannot be empty.\n";
+      emailError = "Email cannot be empty.";
+    } else if (!validateEmail(value.email)) {
+      emailError = "Invalid email format.";
     }
+
     if (value.password === "") {
-      errorMessage += "Password cannot be empty.\n";
+      passwordError = "Password cannot be empty.";
+    } else if (!validatePassword(value.password)) {
+      passwordError = "Password should be at least 6 characters.";
     }
-    if (errorMessage !== "") {
-      Alert.alert("Error", errorMessage.trim());
+
+    setValue({
+      ...value,
+      emailError,
+      passwordError,
+    });
+
+    if (emailError || passwordError) {
+      Alert.alert("Error", "Please fix the errors.");
       return;
     }
+
     try {
       await createUser(value.email, value.password);
       navigation.navigate("User Details");
@@ -60,19 +87,29 @@ const SignUp = () => {
                 placeholder="Email"
                 value={value.email}
                 className="flex-1 p-2 bg-white text-gray-700 rounded-xl"
-                onChangeText={(text) => setValue({ ...value, email: text })}
+                onChangeText={(text) =>
+                  setValue({ ...value, email: text, emailError: "" })
+                }
               />
             </View>
+            {value.emailError !== "" && (
+              <Text style={styles.error}>{value.emailError}</Text>
+            )}
 
             <View className="flex-row justify-center align-center rounded-r-2xl rounded-l-2xl px-1 py-1 bg-gray-200 mx-5">
               <Icon style={styles.icon} name="lock" size={18} color="gray" />
               <TextInput
                 placeholder="Password"
                 className="flex-1 p-2 bg-white text-gray-700 rounded-xl"
-                onChangeText={(text) => setValue({ ...value, password: text })}
+                onChangeText={(text) =>
+                  setValue({ ...value, password: text, passwordError: "" })
+                }
                 secureTextEntry={true}
               />
             </View>
+            {value.passwordError !== "" && (
+              <Text style={styles.error}>{value.passwordError}</Text>
+            )}
           </View>
 
           <View>
@@ -105,5 +142,9 @@ export default SignUp;
 const styles = StyleSheet.create({
   icon: {
     padding: 10,
+  },
+  error: {
+    color: "red",
+    marginLeft: 20,
   },
 });

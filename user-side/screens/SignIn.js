@@ -17,7 +17,8 @@ const SignIn = () => {
   const [value, setValue] = useState({
     email: "",
     password: "",
-    error: "",
+    emailError: "",
+    passwordError: "",
   });
   const navigation = useNavigation();
   const { signInUser } = UserAuth();
@@ -27,18 +28,44 @@ const SignIn = () => {
     signInWithGoogle();
   };
 
+  const validateEmail = (email) => {
+    // Regular expression to validate email
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password) => {
+    // Minimum 6 characters for password
+    return password.length >= 6;
+  };
+
   const onSignIn = async () => {
-    let errorMessage = "";
+    let emailError = "";
+    let passwordError = "";
+
     if (value.email === "") {
-      errorMessage += "Email cannot be empty.\n";
+      emailError = "Email cannot be empty.";
+    } else if (!validateEmail(value.email)) {
+      emailError = "Invalid email format.";
     }
+
     if (value.password === "") {
-      errorMessage += "Password cannot be empty.\n";
+      passwordError = "Password cannot be empty.";
+    } else if (!validatePassword(value.password)) {
+      passwordError = "Password should be at least 6 characters.";
     }
-    if (errorMessage !== "") {
-      Alert.alert("Error", errorMessage.trim());
+
+    setValue({
+      ...value,
+      emailError,
+      passwordError,
+    });
+
+    if (emailError || passwordError) {
+      Alert.alert("Error", "Please fix the errors.");
       return;
     }
+
     try {
       await signInUser(value.email, value.password);
     } catch (error) {
@@ -62,19 +89,29 @@ const SignIn = () => {
                 placeholder="Email"
                 value={value.email}
                 className="flex-1 p-2 bg-white text-gray-700 rounded-xl"
-                onChangeText={(text) => setValue({ ...value, email: text })}
+                onChangeText={(text) =>
+                  setValue({ ...value, email: text, emailError: "" })
+                }
               />
             </View>
+            {value.emailError !== "" && (
+              <Text style={styles.error}>{value.emailError}</Text>
+            )}
 
             <View className="font-main flex-row justify-center align-center rounded-r-2xl rounded-l-2xl px-1 py-1 bg-gray-200 mx-5">
               <Icon style={styles.icon} name="lock" size={18} color="gray" />
               <TextInput
                 placeholder="Password"
                 className="flex-1 p-2 bg-white text-gray-700 rounded-xl"
-                onChangeText={(text) => setValue({ ...value, password: text })}
+                onChangeText={(text) =>
+                  setValue({ ...value, password: text, passwordError: "" })
+                }
                 secureTextEntry={true}
               />
             </View>
+            {value.passwordError !== "" && (
+              <Text style={styles.error}>{value.passwordError}</Text>
+            )}
           </View>
 
           <View>
@@ -83,7 +120,7 @@ const SignIn = () => {
               className="mx-auto w-10/12 items-center p-2 rounded-2xl  hover:bg-green-200 active:bg-green-400 duration-150 bg-green-300 border-l-4 border-b-4 border-green-600"
             >
               <Text className="text-center text-gray-700 font-extrabold text-xl">
-                Sign In 
+                Sign In
               </Text>
             </TouchableOpacity>
           </View>
@@ -124,5 +161,9 @@ export default SignIn;
 const styles = StyleSheet.create({
   icon: {
     padding: 10,
+  },
+  error: {
+    color: "red",
+    marginLeft: 20,
   },
 });

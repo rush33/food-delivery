@@ -37,6 +37,7 @@ const ProfileScreen = () => {
   const dbUser = useSelector(selectUser);
   const { user } = UserAuth();
 
+
   useEffect(() => {
     getLocationPermission();
   }, []);
@@ -66,7 +67,12 @@ const ProfileScreen = () => {
     });
     console.log(userLocation);
   };
-  console.log("User location without handling marker", userLocation);
+
+  const handlePhoneNumberChange = (text) => {
+    const formattedPhoneNumber = text.replace(/\D/g, "");
+    const limitedPhoneNumber = formattedPhoneNumber.slice(0, 10);
+    setPhoneNumber(limitedPhoneNumber);
+  };
 
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
@@ -167,7 +173,7 @@ const ProfileScreen = () => {
             <TextInput
               className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-[#00CCBB] focus:border-[#00CCBB]"
               value={phoneNumber}
-              onChangeText={setPhoneNumber}
+              onChangeText={handlePhoneNumberChange}
               keyboardType="phone-pad"
             />
           </View>

@@ -42,8 +42,10 @@ const UserDetails = () => {
   const [address, setAddress] = useState("");
 
   const { user } = UserAuth();
+  // const { signOutUser } = UserAuth();
 
   useEffect(() => {
+    // signOutUser();
     getLocationPermission();
   }, []);
 
@@ -72,12 +74,17 @@ const UserDetails = () => {
     );
   };
 
+  const handlePhoneNumberChange = (text) => {
+    const formattedPhoneNumber = text.replace(/\D/g, "");
+    const limitedPhoneNumber = formattedPhoneNumber.slice(0, 10);
+    setPhoneNumber(limitedPhoneNumber);
+  };
+
   const onSave = async () => {
     if (!firstName || !lastName || !phoneNumber || !address || !location) {
       Alert.alert("Please fill in all required fields");
       return;
     }
-    
 
     if (validLocation) {
       console.log("uid in user details:", user.uid);
@@ -147,7 +154,7 @@ const UserDetails = () => {
             <TextInput
               className="bg-white border border-gray-200 text-base h-12 px-4 rounded-xl text-gray-700  focus:ring focus:ring-green-400 focus:border-green-400"
               value={phoneNumber}
-              onChangeText={setPhoneNumber}
+              onChangeText={handlePhoneNumberChange}
               keyboardType="phone-pad"
             />
           </View>

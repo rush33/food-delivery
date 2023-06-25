@@ -11,7 +11,7 @@ const OptionsScreen = () => {
   const [name, setName] = useState("");
   const { dbUser, signOutUser } = UserAuth();
 
-  console.log("user:", dbUser)
+  console.log("dbuser in options:", dbUser)
 
   useEffect(() => {
     setName(dbUser?.firstName);
@@ -22,7 +22,7 @@ const OptionsScreen = () => {
       <View className="flex-1 bg-gray-100">
         <View className="p-5 bg-white shadow-xs ">
           <Pressable
-            // onPress={navigation.goBack()}
+            // onPress={navigation.navigate("Home")}
             className="absolute top-4 left-4 bg-white p-2 rounded-full"
           >
             <ArrowLeftIcon size={30} color="#22c55e" />
