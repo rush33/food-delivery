@@ -30,13 +30,13 @@ const ProfileScreen = () => {
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState("");
   const [userLocation, setUserLocation] = useState({
     latitude: null,
     longitude: null,
   });
   const dbUser = useSelector(selectUser);
   const { user } = UserAuth();
-
 
   useEffect(() => {
     getLocationPermission();
@@ -72,10 +72,23 @@ const ProfileScreen = () => {
     const formattedPhoneNumber = text.replace(/\D/g, "");
     const limitedPhoneNumber = formattedPhoneNumber.slice(0, 10);
     setPhoneNumber(limitedPhoneNumber);
+
+    if (limitedPhoneNumber.length !== 10) {
+      setPhoneNumberError("Phone number must be 10 digits.");
+    } else {
+      setPhoneNumberError("");
+    }
   };
 
   const onSave = async () => {
-    if (!firstName || !lastName || !phoneNumber || !address || !location) {
+    if (
+      !firstName ||
+      !lastName ||
+      !phoneNumber ||
+      !address ||
+      !location ||
+      phoneNumberError
+    ) {
       Alert.alert("Please fill all fields to update details.");
       return;
     }
@@ -176,6 +189,9 @@ const ProfileScreen = () => {
               onChangeText={handlePhoneNumberChange}
               keyboardType="phone-pad"
             />
+            {phoneNumberError ? (
+              <Text style={{ color: "red" }}>{phoneNumberError}</Text>
+            ) : null}
           </View>
 
           <View className="mb-4">

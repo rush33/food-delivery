@@ -86,6 +86,11 @@ const UserDetails = () => {
       return;
     }
 
+    if (phoneNumber.length < 10) {
+      Alert.alert("Phone number must be at least 10 digits");
+      return;
+    }
+
     if (validLocation) {
       console.log("uid in user details:", user.uid);
       await setDoc(doc(db, "user", user.uid), {
